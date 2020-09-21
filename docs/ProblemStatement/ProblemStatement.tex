@@ -1,0 +1,39 @@
+\documentclass{article}
+
+\usepackage{tabularx}
+\usepackage{booktabs}
+
+\title{CAS 741: Problem Statement\\Time-Frequency Analysis of Machine Vibration Recordings}
+
+\author{Elizabeth Hofer \\ hofere1}
+
+\date{September 20th, 2020}
+
+\input{../Comments}
+
+\begin{document}
+
+\maketitle
+
+\begin{table}[hp]
+\caption{Revision History} \label{TblRevisionHistory}
+\begin{tabularx}{\textwidth}{llX}
+\toprule
+\textbf{Date} & \textbf{Developer(s)} & \textbf{Change}\\
+\midrule
+9.20.20 & E. Hofer & Initial release of document\\
+\bottomrule
+\end{tabularx}
+\end{table}
+
+
+Large machines (called \emph{vibrating screens}) are used in the mining and aggregate industry to sort gravel by size by exciting the gravel at specific frequencies and with specific patterns. For the purpose of this research the vibrations of the machines have been recorded and the recordings have been obtained. The vibration recordings contain important information when analysed correctly, for example one could extract machine identifying characteristics (i.e. a machine fingerprint) or evidence on whether the machine is functioning correctly.\\
+  
+In order to extract this information from the recording one must analyse the time-frequency content of the recording data (i.e. identify what frequencies occur at what time instance of the sample). The trivial approach for finding frequency content, Fourier Transforms, only identify what frequencies are present in the sample but cannot identify at what time they take place, which would be ill suited to the time-specific machine recording data. Therefore, the analysis that is taken must relay time-localized frequency information.\\
+
+Essentially, the program should take in a time-domain sample recording and produce a time-frequency domain representation of that sample.\\
+
+Interested stakeholders include researchers who require time-frequency analysis of their data, engineers and technicians who work with vibrating machines, and more specifically the company providing the data for this research \an{Unsure if I should mention or list the company specifically or if that is too specific for a problem statement}. The projected is intended to be utilized within a larger software framework and as such should be easily integrated with existing code. At this time it is intended to run on macOS. \\
+
+
+\end{document}
