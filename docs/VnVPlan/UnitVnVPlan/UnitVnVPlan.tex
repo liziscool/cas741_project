@@ -1,0 +1,234 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\input{../../Comments}
+\input{../../Common}
+
+\begin{document}
+
+\title{Project Title: Unit Verification and Validation Plan for \progname{}} 
+\author{Author Name}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+Date 1 & 1.0 & Notes\\
+Date 2 & 1.1 & Notes\\
+\bottomrule
+\end{tabularx}
+
+~\newpage
+
+\tableofcontents
+
+\listoftables
+
+\wss{Do not include if not relevant}
+
+\listoffigures
+
+\wss{Do not include if not relevant}
+
+\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  T & Test\\
+  \bottomrule
+\end{tabular}\\
+
+\wss{symbols, abbreviations or acronyms -- you can reference the SRS
+  \citep{SRS}, MG or MIS tables if needed}
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document ... \wss{provide an introductory blurb and roadmap of the
+  unit V\&V plan}
+
+\wss{If content in this document is already covered in the VnV System plan, you
+  do not have to repeat it.}
+
+\section{General Information}
+
+\subsection{Purpose}
+
+\wss{Identify software that is being unit tested (verified).}
+
+\subsection{Scope}
+
+\wss{What modules are outside of the scope.  If there are modules that are
+  developed by someone else, then you would say here if you aren't planning on
+  verifying them.  There may also be modules that are part of your software, but
+  have a lower priority for verification than others.  If this is the case,
+  explain your rationale for the ranking of module importance.}
+
+\section{Plan}
+	
+\subsection{Verification and Validation Team}
+
+\wss{You, your classmates and the course instructor.  Maybe your supervisor.}
+
+\subsection{Automated Testing and Verification Tools}
+
+\wss{What tools are you using for automated testing.  Likely a unit testing
+  framework and maybe a profiling tool, like ValGrind.  Other possible tools
+  include a static analyzer, make, continuous integration tools, test coverage
+  tools, etc.  Explain your plans for summarizing code coverage metrics.
+  Linters are another important class of tools.  For the programming language
+  you select, you should look at the available linters.  There may also be tools
+  that verify that coding standards have been respected, like flake9 for
+  Python.}
+
+\subsection{Non-Testing Based Verification}
+
+\wss{List any approaches like code inspection, code walkthrough, symbolic
+  execution etc.  Enter not applicable if you do not plan on any non-testing
+  based verification.}
+
+\section{Unit Test Description}
+
+\wss{Reference your MIS and explain your overall philosophy for test case
+  selection.}
+
+\subsection{Tests for Functional Requirements}
+
+\wss{Most of the verification will be through automated unit testing.  If
+  appropriate specific modules can be verified by a non-testing based
+  technique.  That can also be documented in this section.}
+
+\subsubsection{Module 1}
+
+\wss{Include a blurb here to explain why the subsections below cover the module.
+  References to the MIS would be good.  You will want tests from a black box
+  perspective and from a white box perspective.  Explain to the reader how the
+  tests were selected.}
+
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+
+\item{...\\}
+    
+\end{enumerate}
+
+\subsubsection{Module 2}
+
+...
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\wss{If there is a module that needs to be independently assessed for
+  performance, those test cases can go here.  In some projects, planning for
+  nonfunctional tests of units will not be that relevant.}
+
+\wss{These tests may involve collecting performance data from previously
+  mentioned functional tests.}
+
+\subsubsection{Module ?}
+		
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input/Condition: 
+					
+Output/Result: 
+					
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Module ?}
+
+...
+
+\subsection{Traceability Between Test Cases and Modules}
+
+\wss{Provide evidence that all of the modules have been considered.}
+
+\bibliographystyle{plainnat}
+
+\bibliography{../../../refs/References}
+
+\newpage
+
+\section{Appendix}
+
+\wss{This is where you can place additional information, as appropriate}
+
+\subsection{Symbolic Parameters}
+
+\wss{The definition of the test cases may call for SYMBOLIC\_CONSTANTS.
+Their values are defined in this section for easy maintenance.}
+
+\end{document}
