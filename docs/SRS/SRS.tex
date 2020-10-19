@@ -210,6 +210,8 @@ $P$ & \si{\second} & sampling period of a discrete signal
 time-frequency content of the recording data (i.e.\ identify what frequencies 
 occur at what time instance of the sample) is preferred for further analysis.
 
+The introduction will review the purpose of this document, the scope of the requirements for this program, the characteristics of the indented reader, the organization of this complete document, the general system description, the system context, the characteristics of the indented user, and the constraints of the system. 
+
 \subsection{Purpose of Document}
 The purpose of this document is to provide insight on the construction and functionality of \progname{} to the Intended Reader (Section~\ref{sec_IntendedReader}). This document should clearly communicate all necessary background information and context to the Intended Reader such that they can understand the domain in which the project takes place.
 
@@ -234,8 +236,7 @@ characteristics and lists the system constraints.\\
 
 \subsection{System Context}
 
-The system context is shown in Figure \ref{Fig_SystemContext} below. The user will input a one dimensional signal to the system. The user will also select a method of time-frequency transform that will be performed. The user must specify the time period within the sample to be analysed. The user could also specify the minimum and maximum frequencies for the analysis to include, although there will also be defaults. If given all valid inputs, the system will then produce a time-frequency representation of the specified portion of the signal.
-
+The system context is shown in Figure \ref{Fig_SystemContext} below. The circles represent the user, who is both responsible for handling the inputs and the outputs. The box represents the program itself, and the arrows indicate what data and information is passed from the user to the program. 
 \begin{figure}[h!]
 \begin{center}
  \includegraphics[width=0.6\textwidth]{SystemContextFigure}
@@ -323,7 +324,7 @@ likely change [LC], in which the respective assumption is used.
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{mintime_assum}:] The input signal is longer than the time period over which the time-frequency analysis is computed (Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}, LC\ref{LC_user_input}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{minfreq_assum}:] The minimum frequency of the analysis is significantly larger than the sampling frequency of the input signal (Ref by DD\ref{DD_stftmatrix},DD\ref{DD_wavelet}, ,IM\ref{IM1}, LC\ref{LC_user_input}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{maxfreq_assum}:] The maximum frequency of the analysis is significantly smaller than the $1/P$ where P is the time period of the analysis (Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}, LC\ref{LC_user_input}).
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{representation_assum}:]The recording of the signal is an accurate representation of the signal it represents, it is not missing data points and does not contain anomalies.(Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}).
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{representation_assum}:]The recording of the signal is an accurate representation of the signal it represents, it is not missing data points nor does it contain anomalies.(Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{morelet_assum}:]A morelet wavelet will be a sufficient wavelet to compute the time-frequency analysis of a signal $x(n)$. Currently, it is the only wavelet being considered for the wavelet transform, but there are other options available (Ref by IM\ref{IM1}, LC\ref{LC_onlymorelet}, LC\ref{LC_sigma}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{P_assum}:]The discrete sampling period of the signal $x(n)$ is known (Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}).
 
@@ -437,7 +438,7 @@ Description & A Morelet wavelet is one option of wavelet to be used to analyse t
 \hline
   Source &  \url{https://cpb-us-w2.wpmucdn.com/sites.gatech.edu/dist/5/462/files/2016/08/DFT-of-Noise.pdf}\\
   \hline
-  Ref.\ By & IM\ref{DD_wavelet}\\
+  Ref.\ By & DD\ref{DD_wavelet}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -546,7 +547,7 @@ The goal statement \ref{goal_state} is solved by IM\ref{IM1}.
   \hline
   Sources & N/A \\
   \hline
-  Ref.\ By &  \\
+  Ref.\ By &  \\ R\ref{R_inputs}, R\ref{R_illegal_input}, R\ref{R_OutputInputs}
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -568,9 +569,6 @@ provides an estimate of the confidence with which the physical quantities can be
 measured.  This information would be part of the input if one were performing an
 uncertainty quantification exercise.
 
-The specification parameters in Table~\ref{TblInputVar} are listed in
-Table~\ref{TblSpecParams}.
-
 \begin{table}[!h]
   \caption{Input Variables} \label{TblInputVar}
   \renewcommand{\arraystretch}{1.2}
@@ -587,7 +585,7 @@ Table~\ref{TblSpecParams}.
     $\omega_{max}$ & $ \omega_{min} << \omega_{max} $ & $  1/\Delta_n << \omega_{max} << 1/P $ & 200 Hz & N/A \text{*} \\
    $ x(n) $ & N/A & $ x_{min} \leq x(n) \leq x_{max}$ for all n & 0.03627 & 10\%\\
    $P$ & $P > 0$ & N/A & 0.25 \si{\second} & 10\% \\
-\bottomrule
+\bottomrule \\
 \end{longtable*}
 \end{table}
 
@@ -600,7 +598,7 @@ Table~\ref{TblSpecParams}.
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
 
 \noindent
-The output of this \progname{} is a matrix representation of a 1D signal, for this reason, it is not easy to describe the properties of a correct solution. A correct solution should look like a heat map when graphed, essentially the matrix values should not be 'random' or sporadically scattered, and there should be 'clusters' at the prominent frequencies at the time they occur.The output should obviously be consistent for the same input signal and similar for similar input signals. Expressed in table \ref{TblOutputVar} any one value in a transform cannot be greater than the value of the signal itself, at the same time $n$.
+The output of this \progname{} is a time-frequecy \emph{representation} of a 1D signal. What is important to recognize is that a `representation' really could be anything, and therefore what could be considered a `correct solution' is quite diverse and subjective. A correct solution should look like a heat map when graphed, essentially the matrix values should not be 'random' or sporadically scattered, and there should be 'clusters' at the prominent frequencies at the time they occur.The output should obviously be consistent for the same input signal and similar for similar input signals, which seems trivial but will be useful when testing to determine what a correct output can be defined as. Expressed in table \ref{TblOutputVar} any one value in a transform cannot be greater than the value of the signal itself, at the same time $n$, since that would violate the principals of transforms outlined by T\ref{T_dtft}, T\ref{T_stft}, and T\ref{T_wavelet}.
 
 \begin{table}[!h]
 \caption{Output Variables} \label{TblOutputVar}
@@ -625,7 +623,7 @@ qualities that the software is expected to exhibit.
 
 \begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] Program shall require the signal to be analysed as input. All other inputs will have defaults, but program will accept user inputs for those as well (IM \ref{IM1}).
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] Program shall take the signal to be analyzed as input. All other inputs (as specified in table \ref{TblInputVar}) will have defaults, but program shall accept user inputs for those as well (IM \ref{IM1}).
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_illegal_input}:] Program shall notify user if an input value is illegal or out of bounds (IM \ref{IM1}).
   
@@ -639,13 +637,12 @@ qualities that the software is expected to exhibit.
 
 \subsection{Nonfunctional Requirements}
 
-  
 \begin{itemize}
-\item Program shall plot time-frequency representation as a heat map.
-\item The time complexity for this program should be $O(n)$,
-\item Program will not have a graphical user interface but should still be easy to use, the input parameters besides the signal shall all have default values, there should be at most 6 optional inputs.
-\item The program code should be clear and readable.
-\item The program should easily integrate with other software programs. 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_heatmap}:] Program shall plot time-frequency representation as a heat map.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_timecomplexity}:] The time complexity for this program should be $O(n)$,
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_useability}:] Program will not have a graphical user interface but should still be easy to use, the input parameters besides the signal shall all have default values, there should be at most 6 optional inputs.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_readability}:] The program code should be clear and readable.
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_integration}:] The program should easily integrate with other software programs. 
 \end{itemize}
 
 \section{Likely Changes}    
