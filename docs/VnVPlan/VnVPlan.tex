@@ -1,0 +1,787 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=blue,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\usepackage{amsmath, mathtools}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{colortbl}
+\usepackage{xr}
+\usepackage{hyperref}
+\usepackage{longtable}
+\usepackage{xfrac}
+\usepackage{tabularx}
+\usepackage{float}
+\usepackage{siunitx}
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{pdflscape}
+\usepackage{afterpage}
+\usepackage{url}
+\usepackage{tocbibind}
+
+\usepackage[round]{natbib}
+
+\input{../Comments}
+\input{../Common}
+
+\begin{document}
+
+\title{System Verification and Validation Plan for \progname{}} 
+\author{Elizabeth Hofer}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+10.22.2020 & 1.0 & Initial release\\
+\bottomrule
+\end{tabularx}
+
+\newpage
+
+\tableofcontents
+
+\listoftables
+
+\listoffigures
+
+\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  T & Test\\
+  STFT & Short-Time Fourier Transform\\
+  FR & Functional Requirement \\
+  NFR & Non-Functional Requirement\\  
+  SRS & Software Requirements Specification\\ 
+   \bottomrule
+\end{tabular}\\
+
+\wss{symbols, abbreviations or acronyms -- you can simply reference the SRS
+  \citep{SRS} tables, if appropriate}
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document outlines the verification and validation plan for \progname{} to help ensure (but not prove) correctness and completeness of the program. It includes some background information on \progname{}, a plan for testing the functional and non-functional requirements, an outline of the system tests, and an outline of the unit tests  (not yet complete as it is depended on the MIS).
+\section{General Information}
+
+\subsection{Summary}
+
+This document reviews the validation and versification plan for \progname{}, a program for the time-frequency analysis of 1D signals. \progname{} takes a signal $x(n)$ and computes a 2D matrix $X(\omega, n)$ which contains the frequency content at frequency $\omega$ at time $n$ of $x(n)$.
+
+\wss{Say what software is being tested.  Give its name and a brief overview of
+  its general functions.}
+
+\subsection{Objectives}
+
+The objective of this document is to build confidence in the software's correctness. This document will be used to verify and validate the final product, and should therefore aim to encompass all validation and verification elements required for testing. 
+
+\wss{State what is intended to be accomplished.  The objective will be around
+  the qualities that are most important for your project.  You might have
+  something like: ``build confidence in the software correctness,''
+  ``demonstrate adequate usability.'' etc.  You won't list all of the qualities,
+  just those that are most important.}
+
+\subsection{Relevant Documentation}
+
+This document is related to the system requirements specification found here: \url{https://github.com/liziscool/cas741_project/blob/master/docs/SRS/SRS.pdf}
+\wss{Reference relevant documentation.  This will definitely include your SRS
+  and your other project documents (MG, MIS, etc)}
+
+\section{Plan}
+	
+\subsection{Verification and Validation Team}
+
+The verification and validation team includes the domain expert Naveen Ganesh Muralidharan, the verification and validation reviewer Leila Mousapour, and Dr. Spencer Smith.
+
+\subsection{SRS Verification Plan}
+
+The SRS verification plan is to address the 5 functional and 4 non-functional requirements addressed in the SRS. Some of the requirements are combined for an area of testing so that one area of testing serves the purpose of testing multiple requirements. Some areas of testing may have more tests than others, what is important is that each area of testing covers the whole domain and includes the boundary cases where applicable.  
+
+
+\wss{List any approaches you intend to use for SRS verification.  This may just
+  be ad hoc feedback from reviewers, like your classmates, or you may have
+  something more rigorous/systematic in mind..}
+
+\subsection{Design Verification Plan}
+
+The main user of \progname{} is also the author of this VnV document. As such, the verification of the design can be confirmed as they work through the test cases created from them SRS verification plan.
+
+\wss{Plans for design verification}
+
+\subsection{Implementation Verification Plan}
+
+Individual tests are outlined in sections 5.1 through 5.6. The tests will either be automated, performed manually (usually just for quick tests that involve the tester confirming that something happened), or with someone reviewing the code.
+
+\wss{You should at least point to the tests listed in this document and the unit
+  testing plan.}
+
+\wss{In this section you would also give any details of any plans for static verification of
+  the implementation.  Potential techniques include code walkthroughs, code
+  inspection, static analyzers, etc.}
+
+\subsection{Automated Testing and Verification Tools}
+
+
+Since \progname is fairly simple in terms of inputs and outputs, a simple script is all that is needed to automate testing for those tests that need be automated. 
+
+\an{How to validate coding standards}
+
+\wss{What tools are you using for automated testing.  Likely a unit testing
+  framework and maybe a profiling tool, like ValGrind.  Other possible tools
+  include a static analyzer, make, continuous integration tools, test coverage
+  tools, etc.  Explain your plans for summarizing code coverage metrics.
+  Linters are another important class of tools.  For the programming language
+  you select, you should look at the available linters.  There may also be tools
+  that verify that coding standards have been respected, like flake9 for
+  Python.}
+\wss{The details of this section will likely evolve as you get closer to the
+  implementation.}
+
+\subsection{Software Validation Plan}
+
+To test the output of the software, a pseudo-oracle will be used. As is outlined below, pseudo-oracle is needed compare to the output of \progname{} for very simple input functions. Since these input signals are trivial, their time-frequency transform is also trivial, so the tester will construct those herself.
+
+\wss{If there is any external data that can be used for validation, you should
+  point to it here.  If there are no plans for validation, you should state that
+  here.}
+
+\section{System Test Description}
+	
+\subsection{Tests for Functional Requirements}
+
+\wss{Subsets of the tests may be in related, so this section is divided into
+  different areas.  If there are no identifiable subsets for the tests, this
+  level of document structure can be removed.}
+
+\wss{Include a blurb here to explain why the subsections below
+  cover the requirements.  References to the SRS would be good.}
+
+		
+\subsubsection{Area of Testing1 - Fun. Req. 1 and Fun. Req. 2 - Inputs}\label{test_input}
+
+Functional Requirement 1 states: Program shall take the signal to be analysed as input. All other inputs (as specified in table 1) will have defaults, but program shall accept user inputs for those as well.
+
+Functional Requirement 2 states: Program shall notify user if an input value is illegal or out of bounds.
+
+This area of tests will address the inputs to the program. The following tests include  tests with inputs that are within bounds to test Fun. Req. 1 and tests with inputs that are out of bounds to test Fun. Req. 2.
+
+\paragraph{Tests for Fun. Req. 1 and 2}
+
+\begin{enumerate}
+
+\item{test - Normal Input using defaults\\}
+
+Control: Automatic
+					
+Initial State: Pending input
+					
+Input: signal $x(n)$, using default inputs boundaries 
+					
+Output: Program should run with no error, (correctness of solution is addressed in other tests)
+
+Test Case Derivation: Fun. Req. 1
+					
+How test will be performed: Automatically with a script that runs for 10 different functions $x(n)$ as specified in table \ref{Tblstandardinputs}.
+
+\item{test - Normal Input with user entered bounds\\}
+
+Control: Automatic
+					
+Initial State: Pending input
+					
+Input: signal $x(n)$ with $n_i$, $\delta_N$, $\omega_{min} $, $\omega_{max}$ define as in table \an{add a table}
+					
+Output: Program should run with no error, (correctness of solution is addressed in other tests)
+
+Test Case Derivation: Fun. Req. 1
+					
+How test will be performed: Automatically with a script that runs for 10 different functions $x(n)$ as specified in table \ref{Tblstandardinputs} with different input bounds as in other table \ref{Tblboundries}
+
+\item{test - Out of Bounds for $N$\\}
+
+Control: Manual
+					
+Initial State: Pending input
+					
+Input: signal $x(n)$, for $n[0:N]$ analyse for $n_i + \delta_n > N$
+					
+Output: Program should return error about analysis range
+
+Test Case Derivation: Fun. Req. 2
+					
+How test will be performed: Since this is just a quick check for an input, it does not require automation 
+					
+\item{test- Out of Bounds for $\omega_{max}$\\}
+
+Control: Manual
+					
+Initial State: Pending input
+					
+Input:  $x(n)$, with sampling period $P$ analyse for $\omega_{max} < 1/P$, or is close to $1/P$
+					
+Output: Program should return error about analysis range
+
+Test Case Derivation: Fun. Req. 2
+
+How test will be performed: Since this is just a quick check for an input, it does not require automation 
+
+\item{test- Empty $x(n)$\\}
+
+Control: Manual
+					
+Initial State: Pending input
+					
+Input: signal $x(n)$ that is empty
+					
+Output: Program should return warning about empty signal
+
+Test Case Derivation: Fun. Req. 2
+
+How test will be performed: Since this is just a quick check for an input, it does not require automation 
+
+\item{test- Insufficient $\Delta_n$\\}
+
+Control: Manual
+					
+Initial State: Pending input
+					
+Input: signal $x(n)$ and $\delta_n$ that is very small, e.x. $\delta_n < 10$
+					
+Output: Program should return warning about small time period
+
+Test Case Derivation: Fun. Req. 2
+
+How test will be performed: Since this is just a quick check for an input, it does not require automation 
+
+\item{test - Insufficient difference between $\omega_{max}$ and $\omega_{min}$  \\}
+
+Control: Manual
+					
+Initial State: Pending input
+					
+Input: signal $x(n)$ and $\omega_{min}$ that is too close to $\omega_{max}$, e.x. $\omega_{max} < \omega_{min} + 10 $
+					
+Output: Program should return warning about small time period
+
+Test Case Derivation: Fun. Req. 2
+
+How test will be performed: Since this is just a quick check for an input, it does not require automation 
+					
+
+\end{enumerate}
+
+\begin{table}[!h]
+  \caption{Area of testing 1 - Inputs for testing, sampling period is 0.1 s} \label{Tblstandardinputs}
+  \renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable*}{l l} 
+  \toprule
+  \textbf{signal input} & $\omega_{signal}$ \\
+  \midrule 
+  $x(n) = \sin (\frac{2 \pi}{100} n)$  & 10 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{200}  n)$ & 20 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{300}  n)$ & 30 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{500}  n)$ & 50 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{800}  n)$ & 80 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{1000}  n)$ & 100 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{5000}  n)$ & 500 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{10000}  n)$ & 1000 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{20000}  n)$ & 20000 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{30000}  n)$ & 3000 Hz \\
+\bottomrule \\
+\end{longtable*}
+\end{table}
+
+
+\begin{table}[!h]
+  \caption{Area of testing 1 - Boundaries for testing} \label{Tblboundries}
+  \renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable*}{l l l l} 
+  \toprule
+  $n_i$ & $\Delta_n$ & $\omega_{min}$ & $\omega_{max}$ \\
+  \midrule 
+0 & 1000 & 10 Hz & 1000 Hz \\
+0 & 1000 & 50 Hz & 1000 Hz \\
+0 & 1000 & 10 Hz & 2000 Hz \\
+0 & 1000 & 50 Hz & 2000 Hz \\
+0 & 1000 & 10 Hz & 3000 Hz \\
+0 & 1000 & 50 Hz & 3000 Hz \\
+0 & 1000 & 1000 Hz & 3000 Hz \\
+500 & 1000 & 10 Hz & 1000 Hz \\
+0 & 500 & 10 Hz & 1000 Hz \\
+0 & 50 & 50 Hz & 1000 Hz \\
+0 & 50 & 10 Hz & 3000 Hz \\
+\bottomrule \\
+\end{longtable*}
+\end{table}
+
+\subsubsection{Area of Testing 2 - Fun. Req. 3 and Fun. Req. 5} \label{test_req35}
+Functional requirement 3 states: The output shall be a time frequency representation of the signal in the specified time period and over the specified frequency range.
+
+Also functional requirement 5 states: The time-frequency representations of simple input signals (such as sinusoids of a constant frequency or an impulse) should be comparable to existing time-frequency transforms of that signal.
+
+This area of tests will address the outputs of the program. The following tests address assuring the output is what is required and test if the output is correct. 
+
+Note that due to the nature of time frequency representations, there are many ways a representation can be considered correct. The following tests try to address this by using consistent parameters for testing and taking into considerations that there are multiple ways to represent a time-frequency transform correctly. For some of these tests, the program is given a basic signal, and the output is compared the output from a pseudo-oracle, in this case the pseudo oracle is the tester, since the inputs are trivial the time-frequency representations are also trivial, and so a oracle-program will be written to produce the output expected from these trivial inputs. Of course, the output of the software \progname{} will not align exactly with the pseudo-oracle, but for simple signals they should be comparable. For this reason it is essential that the input signals for this test case remain simple.
+
+Additionally, there are tests included that do not depend on a pseudo-oracle that are included for extra assurance. These test cases are derived from the mathematical properties of the theoretical models that govern the program, as outlined in the SRS.
+
+
+\paragraph{Tests for Fun. Req. 3 and 5}
+
+\begin{enumerate}
+
+\item{test1- STFT \\}
+
+Control: Automatic
+					
+Initial State: Pending input for STFT
+					
+Input: signal $x(n)$ according to table \ref{Tblreq3}
+					
+Output: The time frequency representation $X(\omega, n)$
+
+Case Derivation: Fun. Req. 5
+					
+How test will be performed: 
+\begin{enumerate}
+\item{Step 1:} Compute $X(\omega, n)$ with \progname{} and $X_o(\omega, n)$ with the oracle for each signal $x(n)$ with the same input boundaries
+\item{Step 2:} Compute the difference element-wise be $X$ and $X_o$ using:
+\[ \frac{X(\omega_i, n_j) - X_o(\omega_i, n_j)}{X_o(\omega_i, n_j)} \] .
+Record for elements in matrix.
+\item{Step 3:} In addition, take an average of the error for all elements in the matrix, and record.
+\end{enumerate}
+
+\item{test1 - Wavelet\\}
+
+Control: Automatic
+					
+Initial State: Pending input for Wavelet
+					
+Input: signal $x(n)$ according to table \ref{Tblreq3}
+					
+Output: The time frequency representation $X(\omega, n)$
+
+Case Derivation: Fun. Req. 5
+					
+How test will be performed: 
+\begin{enumerate}
+\item{Step 1:} Compute $X(\omega, n)$ with \progname{} and $X_o(\omega, n)$ with the oracle for each signal $x(n)$ with the same input boundaries
+\item{Step 2:} Compute the difference element-wise be $X$ and $X_o$ using:
+\[ \frac{X(\omega_i, n_j) - X_o(\omega_i, n_j)}{X_o(\omega_i, n_j)} \] .
+Record for elements in matrix.
+\item{Step 3:} In addition, take an average of the error for all elements in the matrix, and record.
+\end{enumerate}
+
+\item{test2 - STFT\\}
+
+Control: Automatic
+					
+Initial State: Pending input for STFT
+					
+Input: signal $x(n)$ according to table \ref{Tblreq3}
+					
+Output: $X(\omega, n)$ such that for all $n$, $X(\omega_{signal}, n) > X(\omega, n)$ for all $\omega \neq \omega_{signal}$
+
+Test Case Derivation: Functional requriment 5 and theoretical models 1 and 2.
+					
+How test will be performed: Automatically with a script
+
+\item{test2 - Wavelet\\}
+
+Control: Automatic
+					
+Initial State: Pending input for Wavelet Transform
+					
+Input: signal $x(n)$ according to table \ref{Tblreq3}
+					
+Output:  $X(\omega, n)$ such that for all $n$, $X(\omega_{signal}, n) > X(\omega, n)$ for all $\omega \neq \omega_{signal}$
+
+Test Case Derivation: Functional requirement 5 and theoretical Model 3
+					
+How test will be performed: Automatically with a script
+
+
+\end{enumerate}
+
+
+
+\begin{table}[!h]
+  \caption{Input Signals for area of testing 2, assume a sampling period of 0.1 seconds. } \label{Tblreq3}
+  \renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable*}{l m{2cm} m{2cm} c} 
+  \toprule
+  \textbf{signal input} & \textbf{time boundary} & \textbf{frequency boundary in Hz} & \textbf{average difference}\\
+  \midrule 
+  $x(n) = \sin (\frac{2 \pi}{100} n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
+  $x(n) = \sin (\frac{2 \pi}{200}  n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
+  \vdots & \vdots & \vdots & \\
+  $x(n) = \sin (\frac{2 \pi}{100} n) + \sin (\frac{2 \pi}{500}  n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
+  \vdots & \vdots & \vdots & \\
+  $x(n) = \begin{cases} 
+  \sin (\frac{2 \pi}{100}  n) & \text{if } 0 < n < 500 \\
+  0 &\text{else}
+    \end{cases}$   & $n[0,1000]$ & $\omega[0, 1000]$ & \\
+  \vdots & \vdots & \vdots & \\
+  
+  $x(n) = \begin{cases} 
+  \sin (\frac{2 \pi}{100}  n) & \text{if } 0 < n \leq 200 \\
+  \sin (\frac{2 \pi}{220}  n)&\text{if }  200 < n \leq 400 \\
+  \sin (\frac{2 \pi}{500}  n)&\text{if }  400 < n \leq 600 \\
+   \sin (\frac{2 \pi}{1000}  n)&\text{if }  600 < n \leq 1000 \\
+    \end{cases}$   & $n[0,1000]$ & $\omega[0, 1000]$ & \\
+\bottomrule \\
+\end{longtable*}
+\end{table}
+
+
+\subsubsection{Area of Testing 3 - Fun. Req. 4} \label{test_req4}
+Functional Requirement 4 states: The program should minimize spectral leakage. 
+
+Due to the nature of time-frequency transforms there will always be some spectral leakage. The following sets of test will try to quantify the amount of spectral leakage in a similar method used in area of testing 3. These tests will input simple known signals $x(n)$ into \progname{} and compare the output to a known time-frequency representation of that signal, essentially a pseudo-oracle. It will then compare the amount of spectral leakage of the output of \progname{} to the pseudo-oracle representation, which should basically have no spectral leakage.
+
+\paragraph{Tests for Fun. Req. 4}
+
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: Automatic
+					
+Initial State: Pending Input for STFT
+					
+Input/Condition: $x(n)$ according to table \ref{Tblstandardinputs}
+					
+Output/Result: time frequency representation $X(\omega, n)$
+	
+Test Case Derivation: Functional Req. 4			
+					
+How test will be performed: 
+\begin{enumerate}
+
+\item{Step 1} Compute $X(\omega, n)$ with \progname and $X_o(\omega, n)$ with the oracle for each signal $x(n)$ with the same input boundaries
+\item{Step 2} Compute the difference element-wise be $X$ and $X_o$ using:
+\[ \frac{X(\omega_i, n_j) - X_o(\omega_i, n_j)}{X_o(\omega_i, n_j)} \]
+record for elements in matrix.
+\item{Step 3} In addition, take an average of the spectral leakage all elements in the matrix.
+\end{enumerate}			
+
+\item{test-id2\\}
+
+Type: Automatic
+					
+Initial State: Pending Input for Wavelet Transform
+					
+Input/Condition: $x(n)$ according to table \ref{Tblreq3}
+					
+Output/Result: time frequency representation $X(\omega, n)$
+	
+Test Case Derivation: Functional Req. 4			
+					
+\begin{enumerate}
+
+\item{Step 1} Compute $X(\omega, n)$ with \progname and $X_o(\omega, n)$ with the oracle for each signal $x(n)$ with the same input boundaries
+\item{Step 2} Compute the difference element-wise be $X$ and $X_o$ using:
+\[ \frac{X(\omega_i, n_j) - X_o(\omega_i, n_j)}{X_o(\omega_i, n_j)} \]
+record for elements in matrix.
+\item{Step 3} In addition, take an average of the spectral leakage all elements in the matrix.
+\end{enumerate}	
+					
+
+\end{enumerate}
+
+
+
+\section{Tests for Nonfunctional Requirements}
+
+\wss{The nonfunctional requirements for accuracy will likely just reference the
+  appropriate functional tests from above.  The test cases should mention
+  reporting the relative error for these tests.}
+
+\wss{Tests related to usability could include conducting a usability test and
+  survey.}
+\subsection{Area of testing 6 - Nonfun. Req. 6} \label{test_heatmap}
+\paragraph{Plotting Output as a Heat Map}
+
+Non-Functional Requirement 6 states: Program shall plot time-frequency representation as a heat map.
+
+\begin{enumerate}
+
+\item{test - Heat Map\\}
+
+Type: Manual
+					
+Initial State: Output 
+					
+Input/Condition: Any signal $x(n)$ from table \ref{Tblreq3}
+					
+Output/Result: Heat-map type plot of the matrix
+					
+How test will be performed: Manually as it is a simple test that just needs to be ran once, the tester will have to look at the matrix and the heat map to make sure they are generally communicating the same representation. 
+					
+\end{enumerate}
+
+
+\subsection{Area of testing 8 - Nonfun. Req. 8} \label{test_usability}
+\paragraph{Useableity}
+
+Non-Functional Requirement 8 states: Program will not have a graphical user interface but should still be easy to use, the input parameters besides the signal shall all have default values, there should be at most 6 optional inputs.
+
+\begin{enumerate}
+
+\item{test - Usability\\}
+
+Type: Manual
+					
+Initial State: Off
+					
+Input/Condition: User input for any signal $x(n)$ from table \ref{Tblreq3} and any boundaries in table \ref{Tblboundries}
+					
+Output/Result: \progname{} should compute the time frequency representation
+					
+How test will be performed: Manually, as it is a test of usability by the \emph{user}, and thus requires the test to be ran by the user.
+					
+\end{enumerate}
+
+\subsection{Area of testing 9 - Nonfun. Req. 9} \label{test_readability}
+\paragraph{Readability}
+
+Non-Functional Requirement 9 states: The program code should be clear and readable.
+
+\begin{enumerate}
+
+\item{test - Readability\\}
+
+Type: Manual
+					
+Initial State: N/A
+					
+Input/Condition: N/A
+					
+Output/Result:N/A
+					
+How test will be performed: The author will review the code and determine if it satisfies the qualities in table \ref{Tblreadability}
+					
+\end{enumerate}
+\begin{table}[!h]
+  \caption{Code Readability Qualities} \label{Tblreadability}
+  \renewcommand{\arraystretch}{1.2}
+\noindent \begin{longtable*}{l l} 
+  \toprule
+  Quality & Y/N\\
+  \midrule 
+  Readable and logical variable names & \\
+  Functions are self explanatory or have comments to describe what they do & \\
+  Every function is responsible for one single thing & \\
+  Code is organized structurally & \\
+\bottomrule \\
+\end{longtable*}
+\end{table}
+
+\subsection{Area of testing 10 - Nonfun. Req.10} \label{test_system}
+\paragraph{Easily integrate with other systems}
+
+Non-Functional Requirement 10 states: The program should easily integrate with other software programs. 
+
+\begin{enumerate}
+
+\item{test - Heat Map\\}
+
+Type: Manual
+					
+Initial State: N/A 
+					
+Input/Condition: N/A
+					
+Output/Result: N/A
+					
+How test will be performed: The tester just needs to ensure that the program can be called like a function from inside another program, therefore the inputs and outputs must have consistent types.
+					
+\end{enumerate}
+
+
+\subsection{Traceability Between Test Cases and Requirements}
+Table \ref{Table:R_trace} demonstrates the traceability between the tests cases and the requirements. 
+
+\wss{Provide a table that shows which test cases are supporting which
+  requirements.}
+
+\begin{table}[h!]
+\centering
+\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\hline
+	& Test \ref{test_input} & Test \ref{test_req35} & Test \ref{test_req4} & Test\ref{test_heatmap}  & Test \ref{test_usability}  & Test \ref{test_readability}  & Test \ref{test_system}\\
+\hline
+R1      &X& & & & & & \\ \hline
+R2 		&X& & & & & & \\ \hline
+R3		& &X& & & & & \\ \hline
+R4      & & &X& & & & \\ \hline 
+R5		& &X& & & & &  \\ \hline
+R6		& & & &X& & &  \\ \hline
+R8		& & & & &X& &  \\ \hline
+R9		& & & & & &X&  \\ \hline
+R10 		& & & & & & &X \\ 
+\hline
+\end{tabular}
+\caption{Traceability Matrix Showing the Connections Between Requirements and Instance Models}
+\label{Table:R_trace}
+\end{table}
+
+
+\section{Unit Test Description}
+
+\wss{Reference your MIS and explain your overall philosophy for test case
+  selection.}  
+\wss{This section should not be filled in until after the MIS has
+  been completed.}
+  
+  This section is intentionally left blank until the MIS is completed.
+
+\subsection{Unit Testing Scope}
+
+\wss{What modules are outside of the scope.  If there are modules that are
+  developed by someone else, then you would say here if you aren't planning on
+  verifying them.  There may also be modules that are part of your software, but
+  have a lower priority for verification than others.  If this is the case,
+  explain your rationale for the ranking of module importance.}
+
+\subsection{Tests for Functional Requirements}
+
+\wss{Most of the verification will be through automated unit testing.  If
+  appropriate specific modules can be verified by a non-testing based
+  technique.  That can also be documented in this section.}
+
+\subsubsection{Module 1}
+
+\wss{Include a blurb here to explain why the subsections below cover the module.
+  References to the MIS would be good.  You will want tests from a black box
+  perspective and from a white box perspective.  Explain to the reader how the
+  tests were selected.}
+
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input: 
+					
+Output: \wss{The expected result for the given inputs}
+
+Test Case Derivation: \wss{Justify the expected value given in the Output field}
+
+How test will be performed: 
+
+\item{...\\}
+    
+\end{enumerate}
+
+\subsubsection{Module 2}
+
+...
+
+\subsection{Tests for Nonfunctional Requirements}
+
+\wss{If there is a module that needs to be independently assessed for
+  performance, those test cases can go here.  In some projects, planning for
+  nonfunctional tests of units will not be that relevant.}
+
+\wss{These tests may involve collecting performance data from previously
+  mentioned functional tests.}
+
+\subsubsection{Module ?}
+		
+\begin{enumerate}
+
+\item{test-id1\\}
+
+Type: \wss{Functional, Dynamic, Manual, Automatic, Static etc. Most will
+  be automatic}
+					
+Initial State: 
+					
+Input/Condition: 
+					
+Output/Result: 
+					
+How test will be performed: 
+					
+\item{test-id2\\}
+
+Type: Functional, Dynamic, Manual, Static etc.
+					
+Initial State: 
+					
+Input: 
+					
+Output: 
+					
+How test will be performed: 
+
+\end{enumerate}
+
+\subsubsection{Module ?}
+
+...
+
+\subsection{Traceability Between Test Cases and Modules}
+
+\wss{Provide evidence that all of the modules have been considered.}
+				
+\bibliographystyle{plainnat}
+
+\bibliography{../../refs/References}
+
+\newpage
+
+\section{Appendix}
+
+
+\subsection{Symbolic Parameters}
+
+N/A at this time.
+
+\end{document}
