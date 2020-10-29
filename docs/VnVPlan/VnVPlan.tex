@@ -297,22 +297,22 @@ How test will be performed: Since this is just a quick check for an input, it do
 \end{enumerate}
 
 \begin{table}[!h]
-  \caption{Area of testing 1 - Inputs for testing, sampling period is 0.1 s} \label{Tblstandardinputs}
+  \caption{Area of testing 1 - Inputs for testing, sampling period is $1^{-5}$ s} \label{Tblstandardinputs}
   \renewcommand{\arraystretch}{1.2}
 \noindent \begin{longtable*}{l l} 
   \toprule
   \textbf{signal input} & $\omega_{signal}$ \\
   \midrule 
-  $x(n) = \sin (\frac{2 \pi}{100} n)$  & 10 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{200}  n)$ & 20 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{300}  n)$ & 30 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{500}  n)$ & 50 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{800}  n)$ & 80 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{10000} n)$  & 10 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{5000}  n)$ & 20 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{3333}  n)$ & 30 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{2000}  n)$ & 50 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{1000}  n)$ & 80 Hz \\
   $x(n) = \sin (\frac{2 \pi}{1000}  n)$ & 100 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{5000}  n)$ & 500 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{10000}  n)$ & 1000 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{20000}  n)$ & 20000 Hz \\
-  $x(n) = \sin (\frac{2 \pi}{30000}  n)$ & 3000 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{200}  n)$ & 500 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{100}  n)$ & 1000 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{50}  n)$ & 20000 Hz \\
+  $x(n) = \sin (\frac{2 \pi}{33.33}  n)$ & 3000 Hz \\
 \bottomrule \\
 \end{longtable*}
 \end{table}
@@ -432,28 +432,28 @@ How test will be performed: Automatically with a script
 
 
 \begin{table}[!h]
-  \caption{Input Signals for area of testing 2, assume a sampling period of 0.1 seconds. } \label{Tblreq3}
+  \caption{Input Signals for area of testing 2, assume a sampling period of $1^{-5}$ seconds. } \label{Tblreq3}
   \renewcommand{\arraystretch}{1.2}
 \noindent \begin{longtable*}{l m{2cm} m{2cm} c} 
   \toprule
   \textbf{signal input} & \textbf{time boundary} & \textbf{frequency boundary in Hz} & \textbf{average difference}\\
   \midrule 
-  $x(n) = \sin (\frac{2 \pi}{100} n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
-  $x(n) = \sin (\frac{2 \pi}{200}  n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
+  $x(n) = \sin (\frac{2 \pi}{10000} n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
+  $x(n) = \sin (\frac{2 \pi}{5000}  n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
   \vdots & \vdots & \vdots & \\
-  $x(n) = \sin (\frac{2 \pi}{100} n) + \sin (\frac{2 \pi}{500}  n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
+  $x(n) = \sin (\frac{2 \pi}{10000} n) + \sin (\frac{2 \pi}{2000}  n)$ & $n[0,1000]$ & $\omega[0, 1000]$ &  \\
   \vdots & \vdots & \vdots & \\
   $x(n) = \begin{cases} 
-  \sin (\frac{2 \pi}{100}  n) & \text{if } 0 < n < 500 \\
+  \sin (\frac{2 \pi}{10000}  n) & \text{if } 0 < n < 500 \\
   0 &\text{else}
     \end{cases}$   & $n[0,1000]$ & $\omega[0, 1000]$ & \\
   \vdots & \vdots & \vdots & \\
   
   $x(n) = \begin{cases} 
-  \sin (\frac{2 \pi}{100}  n) & \text{if } 0 < n \leq 200 \\
-  \sin (\frac{2 \pi}{220}  n)&\text{if }  200 < n \leq 400 \\
-  \sin (\frac{2 \pi}{500}  n)&\text{if }  400 < n \leq 600 \\
-   \sin (\frac{2 \pi}{1000}  n)&\text{if }  600 < n \leq 1000 \\
+  \sin (\frac{2 \pi}{10000}  n) & \text{if } 0 < n \leq 200 \\
+  \sin (\frac{2 \pi}{5000}  n)&\text{if }  200 < n \leq 400 \\
+  \sin (\frac{2 \pi}{3333}  n)&\text{if }  400 < n \leq 600 \\
+   \sin (\frac{2 \pi}{2000}  n)&\text{if }  600 < n \leq 1000 \\
     \end{cases}$   & $n[0,1000]$ & $\omega[0, 1000]$ & \\
 \bottomrule \\
 \end{longtable*}
