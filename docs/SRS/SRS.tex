@@ -88,7 +88,6 @@
 \maketitle
 
 
-\\
 ~\newpage
 
 \pagenumbering{roman}
@@ -485,7 +484,7 @@ For a signal $x(n)$ the matrix at $M_{a,b}(x(n)) = X(n_a, \omega_b)$. The freque
   \rowcolor[gray]{0.9}
   Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD_wavelet}\\
   \hline
-  Label&\bf Matrix representation of Wavlet Transform\\
+  Label&\bf Matrix representation of Wavelet Transform\\
   \hline
   Equation &  The wavelet coefficients are $ WT_\psi\{f(n)\} (a,b) = \langle f, \psi_{a,b} \rangle $. Thus, the matrix representation will be  
   
@@ -547,7 +546,7 @@ The goal statement \ref{goal_state} is solved by IM\ref{IM1}.
   \hline
   Sources & N/A \\
   \hline
-  Ref.\ By &  \\ R\ref{R_inputs}, R\ref{R_illegal_input}, R\ref{R_OutputInputs}
+  Ref.\ By &  R\ref{R_inputs}, R\ref{R_illegal_input}, R\ref{R_OutputInputs}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -598,7 +597,7 @@ uncertainty quantification exercise.
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
 
 \noindent
-The output of this \progname{} is a time-frequecy \emph{representation} of a 1D signal. What is important to recognize is that a `representation' really could be anything, and therefore what could be considered a `correct solution' is quite diverse and subjective. A correct solution should look like a heat map when graphed, essentially the matrix values should not be 'random' or sporadically scattered, and there should be 'clusters' at the prominent frequencies at the time they occur.The output should obviously be consistent for the same input signal and similar for similar input signals, which seems trivial but will be useful when testing to determine what a correct output can be defined as. Expressed in table \ref{TblOutputVar} any one value in a transform cannot be greater than the value of the signal itself, at the same time $n$, since that would violate the principals of transforms outlined by T\ref{T_dtft}, T\ref{T_stft}, and T\ref{T_wavelet}.
+The output of this \progname{} is a time-frequency \emph{representation} of a 1D signal. What is important to recognize is that a `representation' really could be anything, and therefore what could be considered a `correct solution' is quite diverse and subjective. A correct solution should look like a heat map when graphed, essentially the matrix values should not be 'random' or sporadically scattered, and there should be 'clusters' at the prominent frequencies at the time they occur.The output should obviously be consistent for the same input signal and similar for similar input signals, which seems trivial but will be useful when testing to determine what a correct output can be defined as. Expressed in table \ref{TblOutputVar} any one value in a transform cannot be greater than the value of the signal itself, at the same time $n$, since that would violate the principals of transforms outlined by T\ref{T_dtft}, T\ref{T_stft}, and T\ref{T_wavelet}.
 
 \begin{table}[!h]
 \caption{Output Variables} \label{TblOutputVar}
