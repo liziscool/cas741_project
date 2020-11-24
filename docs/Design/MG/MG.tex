@@ -34,7 +34,7 @@
 \begin{document}
 
 \title{Module Guide for \progname{}} 
-\author{Author Name}
+\author{Elizabeth Hofer}
 \date{\today}
 
 \maketitle
@@ -46,8 +46,7 @@
 \begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
 \toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
 \midrule
-Date 1 & 1.0 & Notes\\
-Date 2 & 1.1 & Notes\\
+11.14.20 & 1.0 & Initial Release\\
 \bottomrule
 \end{tabularx}
 
@@ -72,9 +71,9 @@ This section records information for easy reference.
   R & Requirement\\
   SC & Scientific Computing \\
   SRS & Software Requirements Specification\\
-  \progname & Explanation of program name\\
+  STFT & Short Time Fourier Transform\\
+  \progname{} & A program for computing a time frequency analysis of a signal\\
   UC & Unlikely Change \\
-  \wss{etc.} & \wss{...}\\
   \bottomrule
 \end{tabular}\\
 
@@ -161,7 +160,14 @@ change.
   hardware on which the software is running.
 \item[\refstepcounter{acnum} \actheacnum \label{acInput}:] The format of the
   initial input data.
-\item ...
+\item[\refstepcounter{acnum} \actheacnum \label{acInputConstraints}:] The constraints over the input parameters.
+\item[\refstepcounter{acnum} \actheacnum \label{acUseage}:] The usage of \progname{} as a `stand alone' program.
+\item[\refstepcounter{acnum} \actheacnum \label{acWavelet}:] The shapes of the wavelets used in the wavelet transform, currently only one shape is offered, but in future iterations may offer many shapes and the user may be able to specify which shape of wavelet to use. 
+\item[\refstepcounter{acnum} \actheacnum \label{acResolution}:] The resolution of the time-frequency transform (the output). 
+\item[\refstepcounter{acnum} \actheacnum \label{acPlotting}:] The usage of the Plotting Module.
+\item[\refstepcounter{acnum} \actheacnum \label{acBoundrycondtion}:] The users control over the boundary conditions.
+\item[\refstepcounter{acnum} \actheacnum \label{acImpWavelet}:] The implementation of the wavelet transform computation. 
+\item[\refstepcounter{acnum} \actheacnum \label{acImpSTFT}:] The implementation of the STFT transform computation. 
 \end{description}
 
 \subsection{Unlikely Changes} \label{SecUchange}
@@ -176,7 +182,10 @@ decisions will be changed.
 \begin{description}
 \item[\refstepcounter{ucnum} \uctheucnum \label{ucIO}:] Input/Output devices
   (Input: File and/or Keyboard, Output: File, Memory, and/or Screen).
-\item ...
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucOutputformat}:] The output format of the transform.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucZeropad}:] The Zero-pad module is unlikely to be replaced by a different method (there are different methods but they would not provide any better service).
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucOutputVerify}:] The methods of output verification, in the context of \progname{}, are very simple and therefore unlikly to change.
+\item[\refstepcounter{ucnum} \uctheucnum \label{ucGoal}:] The purpose of \progname{} being to analyse the time-frequency content of a signal.
 \end{description}
 
 \section{Module Hierarchy} \label{SecMH}
@@ -188,7 +197,19 @@ actually be implemented.
 
 \begin{description}
 \item [\refstepcounter{mnum} \mthemnum \label{mHH}:] Hardware-Hiding Module
-\item ...
+\item [\refstepcounter{mnum} \mthemnum \label{mSpecParam}:] Specification Param Module
+\item [\refstepcounter{mnum} \mthemnum \label{mMatrix}:] Matrix Data Structure Module
+\item [\refstepcounter{mnum} \mthemnum \label{mInputParam}:] Input Parameter Module 
+\item [\refstepcounter{mnum} \mthemnum \label{mReadData}:] Read Data Module
+\item [\refstepcounter{mnum} \mthemnum \label{mZeroPad}:] Zero-Pad Module
+\item [\refstepcounter{mnum} \mthemnum \label{mBoundry}:] Boundary Configuration Module
+\item [\refstepcounter{mnum} \mthemnum \label{mSTFT}:] STFT Module
+\item [\refstepcounter{mnum} \mthemnum \label{mWavelet}:] Wavelet Module
+\item [\refstepcounter{mnum} \mthemnum \label{mFFT}:] Fast Fourier Transform Module 
+\item [\refstepcounter{mnum} \mthemnum \label{mOutputVerify}:] Output Verification Module
+\item [\refstepcounter{mnum} \mthemnum \label{mOutput}:] Output Module
+\item [\refstepcounter{mnum} \mthemnum \label{mPlot}:] Plotting Module
+\item [\refstepcounter{mnum} \mthemnum \label{mTransform}:] Compute Transform Module  \item [\refstepcounter{mnum} \mthemnum \label{mControl}:] Control Module
 \end{description}
 
 
@@ -202,19 +223,22 @@ actually be implemented.
 {Hardware-Hiding Module} & ~ \\
 \midrule
 
-\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} & ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\
-& ?\\ 
-& ?\\
+\multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} &  Input Parameter Module\\
+& Specification Param Module \\
+& Read Data Module\\
+& Boundary Configuration Module \\
+& STFT Module\\
+& Wavelet Module\\
+& Output Verification Module\\
+& Output Module\\
+& Compute Transform Module \\ 
+& Control Module\\
 \midrule
 
-\multirow{3}{0.3\textwidth}{Software Decision Module} & {?}\\
-& ?\\
-& ?\\
+\multirow{3}{0.3\textwidth}{Software Decision Module} & { Zero-Pad Module}\\
+& Matrix Data Structure Module\\ 
+& Plotting Module\\
+& Fast Fourier Transform Module\\
 \bottomrule
 
 \end{tabular}
@@ -276,17 +300,92 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Input Format Module (\mref{mInput})}
+\subsubsection{Input Format Module (\mref{mInputParam})}
 
 \begin{description}
 \item[Secrets:]The format and structure of the input data.
 \item[Services:]Converts the input data into the data structure used by the
-  input parameters module.
-\item[Implemented By:] [Your Program Name Here]
+  input parameters module.Throws error if inputs are out of bounds.
+\item[Implemented By:] \progname{}
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Specification Param Module (\mref{mSpecParam})}
 
+\begin{description}
+\item[Secrets:]The values of the parameters and constants needed for \progname{}.
+\item[Services:]Read access to the parameters and constants.
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{Read Data Module (\mref{mReadData})}
+
+\begin{description}
+\item[Secrets:]The method of reading and storing the signal from a file.
+\item[Services:]Reads data from an external file.
+\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Boundary Configuration Module (\mref{mBoundry})}
+
+\begin{description}
+\item[Secrets:]The method of configuring the transform the boundary such that it complies with the boundaries.
+\item[Services:]Computes the essential parameters needed to compute the transform.
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{STFT Module (\mref{mSTFT})}
+
+\begin{description}
+\item[Secrets:]The method of computation for the Short-Time Fourier Transform.
+\item[Services:]Computes a time-frequency transform of the signal.
+\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Wavelet Module (\mref{mWavelet})}
+
+\begin{description}
+\item[Secrets:]The method of computation for the Wavelet Transform.
+\item[Services:]Computes a time-frequency transform of the signal.
+\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Output Verification Module (\mref{mOutputVerify})}
+
+\begin{description}
+\item[Secrets:]The method of checking for outputs that may be a sign of error.
+\item[Services:]Verifies if the output is consistent with the laws of the transform that computed it.
+\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Output Module (\mref{mOutput})}
+
+\begin{description}
+\item[Secrets:] The details surrounding how the the time-frequency transform was calculated.
+\item[Services:]Returns the time-frequency transform of the data.
+\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Compute Transform Module (\mref{mTransform})}
+
+\begin{description}
+\item[Secrets:]The details of the set up and overhead require to compute the transform.
+\item[Services:]Sets up and calls a function to compute the time-frequency transform of the signal.
+\item[Implemented By:] \progname{}
+\end{description}
+
+
+\subsubsection{Control Module (\mref{mControl})}
+
+\begin{description}
+\item[Secrets:]The details of the orchestration of the program.
+\item[Services:]Provides the main program.
+\item[Implemented By:] \progname{}
+\end{description}
 
 \subsection{Software Decision Module}
 
@@ -301,7 +400,38 @@ to be implemented.
 \item[Implemented By:] --
 \end{description}
 
-\subsubsection{Etc.}
+\subsubsection{Zero-Pad Module (\mref{mZeroPad})}
+
+\begin{description}
+\item[Secrets:]The method of zero-padding the signal.
+\item[Services:]Extends the signal with a series of leading and trailing zeros.
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{Matrix Data Module (\mref{mMatrix})}
+
+\begin{description}
+\item[Secrets:]The data structure for a matrix type.
+\item[Services:]Provides storage and access to the matrix.
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{Plotting Module (\mref{mPlot})}
+
+\begin{description}
+\item[Secrets:]The conversion of the data from a matrix to a visual plot.
+\item[Services:]Plots the matrix.
+\item[Implemented By:] \progname{}
+\end{description}
+
+\subsubsection{Fast Fourier Transform Module (\mref{mFFT})}
+
+\begin{description}
+\item[Secrets:]The methods for computing a discrete Fourier transform quickly.
+\item[Services:]Computes and stores the Fourier transform of a signal.
+\item[Implemented By:] fftw3
+\end{description}
+
 
 \section{Traceability Matrix} \label{SecTM}
 
@@ -316,18 +446,13 @@ requirements and between the modules and the anticipated changes.
 \toprule
 \textbf{Req.} & \textbf{Modules}\\
 \midrule
-R1 & \mref{mHH}, \mref{mInput}, \mref{mParams}, \mref{mControl}\\
-R2 & \mref{mInput}, \mref{mParams}\\
-R3 & \mref{mVerify}\\
-R4 & \mref{mOutput}, \mref{mControl}\\
-R5 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R6 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}, \mref{mSeqDS}, \mref{mSolver}, \mref{mPlot}\\
-R7 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R8 & \mref{mOutput}, \mref{mEnergy}, \mref{mControl}, \mref{mSeqDS}, \mref{mPlot}\\
-R9 & \mref{mVerifyOut}\\
-R10 & \mref{mOutput}, \mref{mODEs}, \mref{mControl}\\
-R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
-\bottomrule
+R1 & \mref{mHH}, \mref{mInputParam}, \mref{mSpecParam}, \ref{mReadData} \mref{mControl}\\
+R2 & \mref{mInputParam}, \mref{mSpecParam}\\
+R3 & \mref{mMatrix}, \mref{mBoundry}, \mref{mSTFT}, \mref{mWavelet},\mref{mTransform} \mref{mOutput}\\
+R4 &  \mref{mSTFT}, \mref{mWavelet},\mref{mTransform}, \mref{mZeroPad}\\
+R6 &   \mref{mMatrix}, \mref{mBoundry}, \mref{mTransform}, \mref{mPlot}\\
+R7 &  \mref{mInputParam}, \mref{mControl}\\
+
 \end{tabular}
 \caption{Trace Between Requirements and Modules}
 \label{TblRT}
@@ -340,17 +465,15 @@ R11 & \mref{mOutput}, \mref{mODEs}, \mref{mEnergy}, \mref{mControl}\\
 \textbf{AC} & \textbf{Modules}\\
 \midrule
 \acref{acHardware} & \mref{mHH}\\
-\acref{acInput} & \mref{mInput}\\
-\acref{acParams} & \mref{mParams}\\
-\acref{acVerify} & \mref{mVerify}\\
-\acref{acOutput} & \mref{mOutput}\\
-\acref{acVerifyOut} & \mref{mVerifyOut}\\
-\acref{acODEs} & \mref{mODEs}\\
-\acref{acEnergy} & \mref{mEnergy}\\
-\acref{acControl} & \mref{mControl}\\
-\acref{acSeqDS} & \mref{mSeqDS}\\
-\acref{acSolver} & \mref{mSolver}\\
-\acref{acPlot} & \mref{mPlot}\\
+\acref{acInput} & \mref{mInputParam}\\
+\acref{acInputConstraints} & \mref{mSpecParam}\\
+\acref{acUseage} & \mref{mControl}\\
+\acref{acWavelet} & \mref{mWavelet}\\
+\acref{acResolution} & \mref{mBoundry}\\
+\acref{acPlotting} & \mref{mPlot}\\
+\acref{acImpWavelet} & \mref{mWavelet}\\
+\acref{acImpSTFT} & \mref{mSTFT}\\
+
 \bottomrule
 \end{tabular}
 \caption{Trace Between Anticipated Changes and Modules}
@@ -372,7 +495,7 @@ because they use modules from the lower levels.
 
 \begin{figure}[H]
 \centering
-%\includegraphics[width=0.7\textwidth]{UsesHierarchy.png}
+\includegraphics[width=0.9\textwidth]{uses_diagram.png}
 \caption{Use hierarchy among modules}
 \label{FigUH}
 \end{figure}
