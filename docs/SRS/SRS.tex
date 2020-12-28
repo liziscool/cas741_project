@@ -207,9 +207,17 @@ $P$ & \si{\second} & sampling period of a discrete signal
 
 \emph{Vibrating Screens} are large machines used in the mining and aggregate industry to sort aggregate (i.e.\ gravel) by size. The machines excite the aggregate by vibrating in specific patterns. For the purpose of further research, accelerometers were placed on the machines and the vibrations were recorded. It is hypothesized that there is useful information within the vibrations, for example, the vibrations could hold a unique machine fingerprint or indicate if a part of the machine needs to be replaced. However, the current form of the recording of the vibration, a one dimensional signal, is not ideal for reading that information or for further analysis (such as a statistical analysis or creating a support vector machine). Retrieving the 
 time-frequency content of the recording data (i.e.\ identify what frequencies 
-occur at what time instance of the sample) is preferred for further analysis.
+occur at what time instance of the sample) is preferred for further analysis. The time-frequency representation can be visualized when plotted as a heat map, as shown in figure \ref{Fig_heatmap}.
 
 The introduction will review the purpose of this document, the scope of the requirements for this program, the characteristics of the indented reader, the organization of this complete document, the general system description, the system context, the characteristics of the indented user, and the constraints of the system. 
+
+\begin{figure}[h!]
+\begin{center}
+ \includegraphics[width=0.6\textwidth]{STFT_image}
+\caption{Example of a time-frequency transform represented as a heat-map}
+\label{Fig_heatmap} 
+\end{center}
+\end{figure}
 
 \subsection{Purpose of Document}
 The purpose of this document is to provide insight on the construction and functionality of \progname{} to the Intended Reader (Section~\ref{sec_IntendedReader}). This document should clearly communicate all necessary background information and context to the Intended Reader such that they can understand the domain in which the project takes place.
@@ -247,7 +255,8 @@ The system context is shown in Figure \ref{Fig_SystemContext} below. The circles
 \begin{itemize}
 \item User Responsibilities:
 \begin{itemize}
-\item Provide the input data, ensuring it is in correct format.
+\item Provide the input data including a file of the signal to be analysed, the sampling period, the time boundaries of that signal, and the type of transform to be performed.
+\item Ensure input signal is in correct format.
 \item Enter other input variables if defaults are not appropriate.
 \end{itemize}
 \item \progname{} Responsibilities:
@@ -299,7 +308,7 @@ easier to correctly understand the requirements:
 
 \begin{itemize}
 
-\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_meaningfulLabel}:] Compute the STFT representation of the data.
+\item[GS\refstepcounter{goalnum}\thegoalnum \label{G_time_freq_transform}:] Compute the time frequency transformation of the data.
 
 \end{itemize}
 
@@ -349,7 +358,7 @@ SI Units& N/A\\
 Equation& $ X(\omega) = \displaystyle \sum_{n= 0}^{N-1} x(n) e^{-i \omega n} $ \\
 \hline 
 Description &
-The discrete-time Fourier transform transforms a discrete signal $x(n), n[0, \ldots, N]$ into a function of frequency $X(\omega)$. \\
+The discrete-time Fourier transform transforms a discrete signal $x(n)$ of finite lenght $ n[0, \ldots, N]$ into a function of frequency $X(\omega)$. $N$ is the length of the signal, $n$ is the unitless discrete time step, and $\omega$ is the frequency.  \\
 \hline
   Source & \url{https://cpb-us-w2.wpmucdn.com/sites.gatech.edu/dist/5/462/files/2016/08/DFT-of-Noise.pdf} \\
   \hline
@@ -374,9 +383,9 @@ The discrete-time Fourier transform transforms a discrete signal $x(n), n[0, \ld
   \hline
   Description &  
                 The above equation
-                of represents the transformation from a signal $x(n)$ to a function $X(n, \omega)$ which gives the frequency content of frequency $\omega$ at discrete time $n$. $w(n)$ is the \emph{analysis window} which is normalized such that $w(0) = 1$ and $w(n \rightarrow \infty) = w(n \rightarrow - \infty) = 0$\\
+                of represents the transformation from a signal $x(n)$ to a function $X(n, \omega)$ which gives the frequency content of frequency $\omega$ at discrete time $n$. $w(m)$ is the \emph{analysis window} which is normalized such that $w(0) = 1$ and $w(m \rightarrow \infty) = w(m \rightarrow - \infty) = 0$. Note that practically it is not possible to take the sum from $m = -\infty$ to $m = \infty$ so this theoretical model will have a more practical implementation. \\
   \hline
-  Source & \cite{Portnoff}\\
+  Source & \url{https://en.wikipedia.org/wiki/Short-time_Fourier_transform#/media/File:STFT_colored_spectrogram_125ms.png}, \cite{Portnoff}\\
   % The above web link should be replaced with a proper citation to a publication
   \hline
   Ref.\ By & DD\ref{DD_stftmatrix}\\
@@ -428,14 +437,12 @@ Label &\bf Morlet Wavelets\\
 \hline
 Symbol & $\psi_{Mor} (t)$\\
 \hline
-Equation &  $\psi_{Mor} (t) = c_\sigma \pi^{-\frac{1}{4} e^{- \frac{1}{2} t}} (e^{i \sigma t} - \kappa_\sigma)$ 
-
-where $ \kappa_\sigma = e^{1 \frac{1}{2} \sigma^2}$  and  $c_\sigma = (1 + e^{- \sigma^2} - 2 e^{- \frac{3}{4} \sigma^2})^{\frac{1}{2}}$ \\
+Equation &  $\psi_{Mor} (t) = \pi^{-\frac{1}{4}} e^{i \omega_0 t} e^{\frac{-t^2}{2}}$  \\
 \hline
-Description & A Morelet wavelet is one option of wavelet to be used to analyse the signal with the wavelet transform in \ref{IM_wavelet}. Here $\sigma$ is a tuning parameter that allows for a trade off between time-frequency resolutions, conventionally $\sigma < 5$.
+Description & A Morelet wavelet is a common of wavelet for wavelet transforms as outlined in IM \ref{IM_wavelet}. It is a complex valued wavelet consisting of a sine wave modulated by a Gaussian curve.
 \\
 \hline
-  Source &  \url{https://cpb-us-w2.wpmucdn.com/sites.gatech.edu/dist/5/462/files/2016/08/DFT-of-Noise.pdf}\\
+  Source &  \url{https://paos.colorado.edu/research/wavelets/wavelet2.html}\\
   \hline
   Ref.\ By & DD\ref{DD_wavelet}\\
   \hline
