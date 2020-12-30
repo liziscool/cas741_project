@@ -139,7 +139,7 @@ The following table is taken directly from the Module Guide document for this pr
 
 \multirow{7}{0.3\textwidth}{Behaviour-Hiding Module} &  Input Parameter Module\\
 & Specification Param Module \\
-& Read Data Module\\
+& Load Data Module\\
 & Boundary Configuration Module \\
 & STFT Module\\
 & Wavelet Module\\
@@ -267,7 +267,7 @@ None.
 \hline
 \textbf{Name} & \textbf{Type} \\
 \hline \\
-MIN\_FREQ & $\mathbb{R}$\\
+MIN\_FREQ & $\mathbb{R}$ \\
 MAX\_FREQ & $\mathbb{R}$\\
 MIN\_SIG\_LEN & $\mathbb{N}$\\
 MAX\_SIG\_LEN & $\mathbb{N}$\\
@@ -346,15 +346,15 @@ None.
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
 set\_input & $argc: \mathbb{N}$, $<argv_1, \dots, argv_{argc}>$ s.t. $argv_n : string$& - & bad\_arguments, bad\_min\_time, bad\_max\_time, bad\_time\_range, bad\_min\_freq, bad\_max\_freq, bad\_freq\_range , bad\_transform\_type \\
-param.N & - &$\mathbb{N}$ & \\
+N & - &$\mathbb{N}$ & \\
 $f_1$ &  - &$\mathbb{R}$ & \\
 $f_2$ & - & $\mathbb{R}$ &  \\
 $n_1$ & - & $\mathbb{R}$ & \\
 $n_2$ & - & $\mathbb{R}$ & \\
-transform\_type & - & $\{`W', `S'\}$ &  \\
-param.time\_res & - & $\mathbb{N} $&\\
-param.freq\_res & - &$\mathbb{N}$ & \\
-param.sig\_file & - & string & \\
+transform\_type & - & $\{W, S\}$ &  \\
+time\_res & - & $\mathbb{N} $&\\
+freq\_res & - &$\mathbb{N}$ & \\
+sig\_file & - & string & \\
 \hline
 \end{tabular}
 \end{center}
@@ -362,7 +362,17 @@ param.sig\_file & - & string & \\
 \subsection{Semantics}
 
 \subsubsection{State Variables}
-None.
+\begin{itemize}
+\item $f_1$ 
+\item $f_2$ 
+\item $n_1$ 
+\item $n_2$ 
+\item transform\_type  
+\item param.time\_res
+\item param.freq\_res
+\item param.sig\_file
+\end{itemize}
+As outlined in the table above.
 \wss{Not all modules will have state variables.  State variables give the module
   a memory.}
 
@@ -386,7 +396,11 @@ While there will be measures in place to check that the input values comply with
 
 set\_input():
 \begin{itemize}
-\item output: None.
+\item transiton:= as follows
+\begin{enumerate}
+\item Read arguments from command line and assign to respective variable
+\item Check arguments for exceptions, as follows:
+\end{enumerate}
 \item exception: exc:=
 \[ \begin{cases} 
  bad\_arguments & \text{if any of the arguments are incorrectly flagged (i.e. using a flag that doesnt exist}\\ 
@@ -478,7 +492,7 @@ None.
   have local scope.}
  
 \newpage
-\section{MIS of Read Data Module} \label{ReadDataModule} \wss{Use labels for
+\section{MIS of Load Data Module} \label{ReadDataModule} \wss{Use labels for
   cross-referencing}
 
 \wss{You can reference SRS labels, such as R\ref{R_Inputs}.}
@@ -486,7 +500,7 @@ None.
 \wss{It is also possible to use \LaTeX for hypperlinks to external documents.}
 
 \subsection{Module}
-read\_data
+load\_data
 \wss{Short name for the module}
 
 \subsection{Uses}
@@ -498,11 +512,11 @@ None.
 \subsubsection{Exported Access Programs}
 
 \begin{center}
-\begin{tabular}{p{2cm} p{2cm} p{4cm} p{2cm}}
+\begin{tabular}{p{2cm} p{4cm} p{4cm} p{2cm}}
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-read\_sig & sig\_filename:string  & $<x_1, \dots, x_N>$ $x_n : \mathbb{R}$ & bad\_path, empty\_file, file\_wrong\_format \\
+load\_sig & sig\_filename:string  & $<x_1, \dots, x_N>$ $x_n : \mathbb{R}$ & bad\_path, empty\_file, file\_wrong\_format \\
 \hline
 \end{tabular}
 \end{center}
@@ -515,7 +529,7 @@ None.
   a memory.}
 
 \subsubsection{Environment Variables}
-None.
+\texttt{sig\_file} the file type variable of the external signal file
 \wss{This section is not necessary for all modules.  Its purpose is to capture
   when the module has external interaction with the environment, such as for a
   device driver, screen interface, keyboard, file, etc.}
@@ -604,12 +618,12 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent calc\_freq\_res():
+\noindent calc\_freq\_res($f_1$, $f_2$, win\_size):
 \begin{itemize}
 \item output: out := $ (f_2 - f_1) * win\_size$
 \end{itemize}
 
-\noindent calc\_time\_res():
+\noindent calc\_time\_res($n_1$, $n_2$, win\_size):
 \begin{itemize}
 \item output: out := $ \frac{(n_2 - n_1)}{\frac{win\_size}{step\_size}}  $
 \end{itemize}
@@ -643,7 +657,7 @@ STFT
 \wss{Short name for the module}
 
 \subsection{Uses}
-FFT Module, Boundary Configuration Module \ref{BoundryConfigModule}  Matrix Data Structure Module \ref{MatrixDataStructureModule}
+FFT Module, Boundary Configuration Module \ref{BoundryConfigModule},  Matrix Data Structure Module \ref{MatrixDataStructureModule}
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
@@ -680,7 +694,9 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent comp\_stft():
+\noindent comp\_stft(sig):
+where sig is the input signal $< x_1, \dots, x_N>$ where $x_n:\mathbb{R}$, $N:\mathbb{N}$
+
 \begin{itemize}
 \item output: out := $< X_{0,0}, X_{0,1}, \dots, X_{1,0}, X_{1,1}, \dots, X_{I,J}>$ where
 \\ $ X_{i,j} : \mathbb{C}$ s.t.\\
@@ -699,7 +715,7 @@ and $I[0,time\_res]$ and $J[0,freq\_res]$ and $\hat{i}$ is the imaginary number.
   will have one or the other.}
 
 \subsubsection{Local Functions}
-\noindent window\_function():
+\noindent window\_function(WIN\_SIZE):
 \begin{itemize}
 \item output: out := $< w_0, \dots, w_{WIN\_SIZE}>$ where 
 \begin{equation} 
@@ -762,13 +778,14 @@ None.
 
 \subsubsection{Access Routine Semantics}
 
-\noindent comp\_waveletT():
+\noindent comp\_waveletT(sig):
+where sig is the $<x_1,\dots,x_N>$ where $ x_n:\mathbb{R}$, $N:\mathbb{N}$
 \begin{itemize}
 \item output: out := $<X_{0,0},X_{0,1},\dots, X_{1,0},X_{1,1},\dots, X_{I,J}>$ s.t. 
 \begin{equation}
-X(a,b) = \frac{1}{\sqrt{a}} \Sigma_{n = 0}^{wav\_scale\_a} \Psi_{a,b,n} x_n 
+X(a,b) = \frac{1}{\sqrt{a}} \Sigma_{n = 0}^{wav\_scale\_a} w_{a,b,n} x_n 
 \end{equation}
-where $\Psi_{a,b,n}$ represents the wavelet scaled by $a$ and shifted by $b$.
+where $w_{a,b,n}$ represents the wavelet scaled by $a$ and shifted by $b$.
 \end{itemize}
 
 
@@ -957,7 +974,7 @@ comp\_transform
 \wss{Short name for the module}
 
 \subsection{Uses}
-Read Data Module \ref{ReadDataModule}, Wavelet Module \ref{WaveletModule}, STFT Module \ref{STFT Module}, Zero Pad Module \ref{Zero Pad Module}, Matrix Data Structure Module \ref{MatrixDataStructureModule}
+Load Data Module \ref{ReadDataModule}, Wavelet Module \ref{WaveletModule}, STFT Module \ref{STFT Module}, Zero Pad Module \ref{Zero Pad Module}, Matrix Data Structure Module \ref{MatrixDataStructureModule}
 \subsection{Syntax}
 
 \subsubsection{Exported Constants}
@@ -1121,7 +1138,7 @@ None.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-init & $X:\mathbb{N}$, $Y:\mathbb{N}$ & $<X_{0,0},X_{0,1},\dots, X_{1,0},X_{1,1},\dots, X_{X,Y}>$ where $ x_{x,y}:NULL$ & - \\
+init & $X:\mathbb{N}$, $Y:\mathbb{N}$ & $<X_{0,0},X_{0,1},\dots, X_{1,0},X_{1,1},\dots, X_{X,Y}>$& - \\
 m & $x:\mathbb{N}, y:\mathbb{N}$ & $m:\mathbb{R}$ & - \\
 \hline
 \end{tabular}
@@ -1150,7 +1167,7 @@ None.
 \noindent mat.init():
 \begin{itemize}
 \item output: $<X_{0,0},X_{0,1},\dots, X_{1,0},X_{1,1},\dots, X_{X,Y}>$ \\
-Where $X_{x,y}$ is null but it is large able to hold type $\mathbb{R}$.
+Where $X_{x,y}$ is null but it is able to hold type $\mathbb{R}$.
 \end{itemize}
 
 \noindent mat.m():
@@ -1198,7 +1215,7 @@ None.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Exceptions} \\
 \hline
-plot\_matrix & $<X_{0,0},X_{0,1},\dots, X_{1,0},X_{1,1},\dots, X_{X,Y}>$ where $ x_{x,y}:\mathbb{R}$   & $b:\mathbb{B}$ & bad\_path \\
+plot\_matrix & $<X_{0,0},X_{0,1},\dots, X_{1,0},X_{1,1},\dots, X_{X,Y}>$ where $ x_{x,y}:\mathbb{}$   & $b:\mathbb{B}$ & bad\_path \\
 
 \hline
 \end{tabular}
@@ -1246,7 +1263,7 @@ None.
 \hline
 \textbf{Name} & \textbf{In} & \textbf{Out} & \textbf{Description } \\
 \hline
-calc\_colour & $x:\mathbb{R}$ & $R,B,G:\mathbb{R}$ & converts the matrix value into corresponding R,G,B values for heat map\\
+calc\_colour & $x:\mathbb{R}$ & $R,B,G:\mathbb{N}$ & converts the matrix value into corresponding R,G,B values for heat map\\
 
 \hline
 \end{tabular}
