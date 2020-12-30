@@ -330,7 +330,7 @@ likely change [LC], in which the respective assumption is used.
 \begin{itemize}
 
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{mintime_assum}:] The input signal is longer than the time period over which the time-frequency analysis is computed (Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}, LC\ref{LC_user_input}).
-\item[A\refstepcounter{assumpnum}\theassumpnum \label{minfreq_assum}:] The minimum frequency of the analysis is significantly larger than the sampling frequency of the input signal (Ref by DD\ref{DD_stftmatrix},DD\ref{DD_wavelet}, ,IM\ref{IM1}, LC\ref{LC_user_input}).
+\item[A\refstepcounter{assumpnum}\theassumpnum \label{minfreq_assum}:] The minimum frequency of the analysis is significantly larger than the sampling frequency of the input signal (Ref by DD\ref{DD_stftmatrix}, T\ref{T_wavelet}, ,IM\ref{IM1}, LC\ref{LC_user_input}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{maxfreq_assum}:] The maximum frequency of the analysis is significantly smaller than the $1/P$ where P is the time period of the analysis (Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}, LC\ref{LC_user_input}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{representation_assum}:]The recording of the signal is an accurate representation of the signal it represents, it is not missing data points nor does it contain anomalies.(Ref by DD\ref{DD_stftmatrix}, IM\ref{IM1}).
 \item[A\refstepcounter{assumpnum}\theassumpnum \label{morelet_assum}:]A morelet wavelet will be a sufficient wavelet to compute the time-frequency analysis of a signal $x(n)$. Currently, it is the only wavelet being considered for the wavelet transform, but there are other options available (Ref by IM\ref{IM1}, LC\ref{LC_onlymorelet}, LC\ref{LC_sigma}).
@@ -351,7 +351,7 @@ on.
 \rowcolor[gray]{0.9}
 Number& T\refstepcounter{theorynum}\thetheorynum \label{T_dtft}\\
 \hline
-Label &\bf Discrete-time Fourier transform\\
+Label &\bf Discrete Fourier transform\\
  \hline
 SI Units& N/A\\
 \hline
@@ -383,7 +383,7 @@ The discrete-time Fourier transform transforms a discrete signal $x(n)$ of finit
   \hline
   Description &  
                 The above equation
-                of represents the transformation from a signal $x(n)$ to a function $X(n, \omega)$ which gives the frequency content of frequency $\omega$ at discrete time $n$. $w(m)$ is the \emph{analysis window} which is normalized such that $w(0) = 1$ and $w(m \rightarrow \infty) = w(m \rightarrow - \infty) = 0$. Note that practically it is not possible to take the sum from $m = -\infty$ to $m = \infty$ so this theoretical model will have a more practical implementation. \\
+                of represents the transformation from a signal $x(n)$ to a function $X(n, \omega)$ which gives the frequency content of frequency $\omega$ at discrete time $n$. $w(m)$ is the \emph{analysis window} which is normalized such that $w(0) = 1$ and $w(m \rightarrow \infty) = w(m \rightarrow - \infty) = 0$. Note that practically it is not possible to take the sum from $m = -\infty$ to $m = \infty$ so this theoretical model will have a more practical implementation using the DFT in T\ref{T_dtft}. \\
   \hline
   Source & \url{https://en.wikipedia.org/wiki/Short-time_Fourier_transform#/media/File:STFT_colored_spectrogram_125ms.png}, \cite{Portnoff}\\
   % The above web link should be replaced with a proper citation to a publication
@@ -414,7 +414,7 @@ Description & A wavelet is a brief oscillation constructed from any periodic fun
 \hline
   Source & \url{https://cpb-us-w2.wpmucdn.com/sites.gatech.edu/dist/5/462/files/2016/08/DFT-of-Noise.pdf}\\
   \hline
-  Ref.\ By & DD\ref{DD_wavelet}\\
+  Ref.\ By & T\ref{T_wavelet}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -439,12 +439,12 @@ Symbol & $\psi_{Mor} (t)$\\
 \hline
 Equation &  $\psi_{Mor} (t) = \pi^{-\frac{1}{4}} e^{i \omega_0 t} e^{\frac{-t^2}{2}}$  \\
 \hline
-Description & A Morelet wavelet is a common of wavelet for wavelet transforms as outlined in IM \ref{IM_wavelet}. It is a complex valued wavelet consisting of a sine wave modulated by a Gaussian curve.
+Description & A Morelet wavelet is a common of wavelet for wavelet transforms as outlined in IM \ref{T_wavelet}. It is a complex valued wavelet consisting of a sine wave modulated by a Gaussian curve.
 \\
 \hline
   Source &  \url{https://paos.colorado.edu/research/wavelets/wavelet2.html}\\
   \hline
-  Ref.\ By & DD\ref{DD_wavelet}\\
+  Ref.\ By & T\ref{Twavelet}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -457,9 +457,9 @@ Description & A Morelet wavelet is a common of wavelet for wavelet transforms as
 \rowcolor[gray]{0.9}
 Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD_stftmatrix}\\
 \hline
-Label &\bf Matrix representation of STFT\\
+Label &\bf Matrix representation of Time Frequency Transform\\
 \hline
-Equation& for a signal $x(n)$ with a corresponding STFT $X(n, \omega)$ the matrix representation is
+Equation& for a signal $x(n)$ with a corresponding time frequency transform  $X(n, \omega)$ calculated from either the STFT in T\ref{T_stft} or the wavelet transform T\ref{T_wavelet} the matrix representation is
 
  $M (x(n)) = 
 \begin{bmatrix}
@@ -476,45 +476,13 @@ For a signal $x(n)$ the matrix at $M_{a,b}(x(n)) = X(n_a, \omega_b)$. The freque
 \hline
   Source &  N/A\\
   \hline
-  Ref.\ By & DD\ref{DD_wavelet}\\
+  Ref.\ By & T\ref{T_wavelet}\\
   \hline
 \end{tabular}
 \end{minipage}\\
 
 ~\newline
 
-\noindent
-\begin{minipage}{\textwidth}
-\renewcommand*{\arraystretch}{1.5}
-\begin{tabular}{| p{\colAwidth} | p{\colBwidth}|}
-  \hline
-  \rowcolor[gray]{0.9}
-  Number& DD\refstepcounter{datadefnum}\thedatadefnum \label{DD_wavelet}\\
-  \hline
-  Label&\bf Matrix representation of Wavelet Transform\\
-  \hline
-  Equation &  The wavelet coefficients are $ WT_\psi\{f(n)\} (a,b) = \langle f, \psi_{a,b} \rangle $. Thus, the matrix representation will be  
-  
-$M (x(n)) = 
-\begin{bmatrix}
-\langle f, \psi_{n_0,\omega_0} \rangle  & \langle f, \psi_{n_1,\omega_0} \rangle  & \dots & \langle f, \psi_{n_N,\omega_0} \rangle  
-\\
-\langle f, \psi_{n_0,\omega_1} \rangle  & \langle f, \psi_{n_1,\omega_1} \rangle  & \dots & \langle f, \psi_{n_N,\omega_1} \rangle  
-\\
-\vdots & \vdots &\ddots & \vdots \\
-\langle f, \psi_{n_0,\omega_F} \rangle  & \langle f, \psi_{n_1,\omega_F} \rangle  & \dots & \langle f, \psi_{n_N,\omega_F} \rangle  
-\end{bmatrix}$
-\\ \\
-  \hline
-  Description & The wavelet coefficients can be assembled into a matrix for a time-frequency representation of the signal. The frequency $\omega_0$ will be the minimum frequency that should be analysed and $\omega_F$ will be the maximum frequency that should be analysed, with the remaining frequencies evenly spaced intervals. \\
-  \hline
-  Source & \url{https://en.wikipedia.org/wiki/Wavelet}\\
-  % The above web link should be replaced with a proper citation to a publication
-  \hline
-  Ref.\ By & DD\ref{IM1}\\
-  \hline
-\end{tabular}
-\end{minipage}\\
 
 \subsubsection{Instance Models} \label{sec_instance}    
 
@@ -553,7 +521,7 @@ The goal statement \ref{goal_state} is solved by IM\ref{IM1}.
   \hline
   Sources & N/A \\
   \hline
-  Ref.\ By &  R\ref{R_inputs}, R\ref{R_illegal_input}, R\ref{R_OutputInputs}\\
+  Ref. By &  R\ref{R_inputs}, R\ref{R_illegal_input}, R\ref{R_OutputInputs}\\
   \hline
 \end{tabular}
 \end{minipage}\\
@@ -604,7 +572,7 @@ uncertainty quantification exercise.
 \subsubsection{Properties of a Correct Solution} \label{sec_CorrectSolution}
 
 \noindent
-The output of this \progname{} is a time-frequency \emph{representation} of a 1D signal. What is important to recognize is that a `representation' really could be anything, and therefore what could be considered a `correct solution' is quite diverse and subjective. A correct solution should look like a heat map when graphed, essentially the matrix values should not be 'random' or sporadically scattered, and there should be 'clusters' at the prominent frequencies at the time they occur.The output should obviously be consistent for the same input signal and similar for similar input signals, which seems trivial but will be useful when testing to determine what a correct output can be defined as. Expressed in table \ref{TblOutputVar} any one value in a transform cannot be greater than the value of the signal itself, at the same time $n$, since that would violate the principals of transforms outlined by T\ref{T_dtft}, T\ref{T_stft}, and T\ref{T_wavelet}.
+The output of this \progname{} is a time-frequency \emph{representation} of a 1D signal. What is important to recognize is that a `representation' could vary significantly and therefore what could be considered a `correct solution' is subjective. A correct solution should look like a heat map when graphed, essentially the matrix values should not be 'random' or sporadically scattered, and there should be 'clusters' at the prominent frequencies at the time they occur. The output should obviously be consistent for the same input signal and similar for similar input signals, which seems trivial but will be useful when testing to determine what a correct output can be defined as. Expressed in table \ref{TblOutputVar} any one value in a transform cannot be greater than the value of the signal itself, at the same time $n$, since that would violate the principals of transforms outlined by T\ref{T_dtft}, T\ref{T_stft}, and T\ref{T_wavelet}.
 
 \begin{table}[!h]
 \caption{Output Variables} \label{TblOutputVar}
@@ -619,6 +587,7 @@ The output of this \progname{} is a time-frequency \emph{representation} of a 1D
 \end{longtable*}
 \end{table}
 
+~\newpage
 \section{Requirements}
 
 This section provides the functional requirements, the business tasks that the
@@ -629,13 +598,11 @@ qualities that the software is expected to exhibit.
 
 \begin{itemize}
 
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] Program shall take the signal to be analyzed as input. All other inputs (as specified in table \ref{TblInputVar}) will have defaults, but program shall accept user inputs for those as well (IM \ref{IM1}).
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_Inputs}:] Program shall take a sequence of numbers representing the signal to be analysed as input. All other inputs (as specified in table \ref{TblInputVar}) will have defaults, but program shall accept user inputs for those as well (IM \ref{IM1}).
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_illegal_input}:] Program shall notify user if an input value is illegal or out of bounds (IM \ref{IM1}).
   
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_OutputInputs}:] The output shall be a time frequency representation of the signal in the specified time period and over the specified frequency range (IM \ref{IM1}).
-
-\item[R\refstepcounter{reqnum}\thereqnum \label{R_spectral_leakage}:] The program should minimize spectral leakage (IM \ref{IM1}, DD\ref{DD_wavelet}, DD\ref{DD_morlet}). 
 
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_VerifyOutput}:] The time-frequency representations of simple input signals (such as sinusoids of a constant frequency or an impulse) should be comparable to existing time-frequency transforms of that signal (IM \ref{IM1}).
 
@@ -649,6 +616,7 @@ qualities that the software is expected to exhibit.
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_useability}:] Program will not have a graphical user interface but should still be easy to use, the input parameters besides the signal shall all have default values, there should be at most 6 optional inputs.
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_readability}:] The program code should be clear and readable.
 \item[R\refstepcounter{reqnum}\thereqnum \label{R_integration}:] The program should easily integrate with other software programs. 
+\item[R\refstepcounter{reqnum}\thereqnum \label{R_spectral_leakage}:] The program should minimize spectral leakage (IM \ref{IM1}, DD\ref{DD_morlet}). 
 \end{itemize}
 
 \section{Likely Changes}    
@@ -683,14 +651,13 @@ the assumptions.
 \centering
 \begin{tabular}{|c|c|c|c|c|c|c|}
 \hline
-	& \aref{mintime_assum}& \aref{minfreq_assum}& \aref{maxfreq_assum}& \aref{representation_assumm}& \aref{morelet_assum}& \aref{P_assum} \\
+	& \aref{mintime_assum}& \aref{minfreq_assum}& \aref{maxfreq_assum}& \aref{representation_assum}& \aref{morelet_assum}& \aref{P_assum} \\
 \hline
 \tref{T_dtft}          & & & & & &  \\ \hline
 \tref{T_wavelet}       & &X&X& & &  \\ \hline
 \tref{T_stft}          & &X&X&X& &X \\ \hline
 \ddref{DD_morlet}       & & & & & &  \\ \hline
 \ddref{DD_stftmatrix}   &X& & & & &  \\ \hline
-\iref{DD_wavelet}       & & & & & &  \\ \hline
 \iref{IM1}             &X&X&X&X&X&X  \\ \hline
 \lcref{LC_onlymorelet} & & & & &X&  \\ \hline
 \lcref{LC_sigma}       & & & & & &  \\ \hline
@@ -705,18 +672,17 @@ the assumptions.
 
 \begin{table}[h!]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|c|}
+\begin{tabular}{|c|c|c|c|c|c|c|}
 \hline        
-	& \tref{T_dtft} & \tref{T_wavelet}& \tref{T_stft}& \ddref{DD_morlet} & \ddref{DD_stftmatrix}& \ddref{DD_wavlet} & \iref{IM1} \\
+	& \tref{T_dtft} & \tref{T_wavelet}& \tref{T_stft}& \ddref{DD_morlet} & \ddref{DD_stftmatrix}& \iref{IM1} \\
 \hline
 \hline
-\tref{T_dtft}          & & &X& &X& & \\ \hline
-\tref{T_wavelet}       & & & & & &X& \\ \hline
-\tref{T_stft}        &X& & & &X& & \\ \hline
-\ddref{DD_morlet}      & & & & &X& & \\ \hline
-\ddref{DD_stftmatrix}  &X& &X& & & &X\\ \hline
-\ddref{DD_wavelet}     & &X& & & & &X\\ \hline
-\iref{IM1}             & & & &X&X&X \\
+\tref{T_dtft}          & & &X& &X& \\ \hline
+\tref{T_wavelet}       & & & & & & \\ \hline
+\tref{T_stft}        &X& & & &X& \\ \hline
+\ddref{DD_morlet}      & & & & &X& \\ \hline
+\ddref{DD_stftmatrix}  &X& &X& & &X\\ \hline
+\iref{IM1}             & & & &X&X \\
 \hline
 \end{tabular}
 \caption{Traceability Matrix Showing the Connections Between Items of Different Sections}
