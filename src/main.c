@@ -112,7 +112,7 @@ int set_input(int argc, char* argv[]){
 int main(int argc, char* argv[]){
     set_input(argc, argv);
     //for testing
-    strcat(testpath, filename);
+    //strcat(testpath, filename); // use if you just want to type the filename instead of the whole file path, but check the test path at the top of the document
   
     mat = comp_transform(testpath, n_1, n_2, f_1, f_2, transform_type, sampleing_period );
 

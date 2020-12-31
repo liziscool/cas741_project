@@ -6,9 +6,6 @@
 
 #include "../include/plot.h"
 
-//#define N 100000 //length of signal
-
-
 double *in_signal;
 double* padded_signal;
 
@@ -27,13 +24,11 @@ int N;
 
 typedef struct complex_t{
     double r;
-    double i; //real and imaginary, apprarently 'im' is already reserved for something in c
+    double i; //real and imaginary
 } complex_t;
 
 complex_t* init_complex_wavelet(int size, complex_t* wavelet){
     wavelet = (complex_t*)malloc(size*sizeof(complex_t));
-    //wavelet->r = (double*)malloc(size*sizeof(double));
-    //wavelet->i = (double*)malloc(size*sizeof(double));
     return(wavelet);
 }
 
@@ -238,8 +233,8 @@ double* comp_transform(char sig_filename[256], int n_1, int n_2, double f_1, dou
     read_signal(sig_filename, in_signal, n_1, n_2);
     zero_pad_signal(in_signal,padded_signal);
 
-    //out_mat = comp_stft(padded_signal);
-    out_mat = comp_wavelet_transform(padded_signal);
+    out_mat = comp_stft(padded_signal);
+    //out_mat = comp_wavelet_transform(padded_signal); //not quite working yet
     printf("Matrix Computed\n");
     double df = dominant_frequency(out_mat);
     printf("dominant frequency detected: %f Hz\n", df);
