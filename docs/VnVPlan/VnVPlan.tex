@@ -38,7 +38,7 @@
 
 \begin{document}
 
-\title{System Verification and Validation Plan for \progname{}} 
+\title{System Verification and Validation Plan for \progname} 
 \author{Elizabeth Hofer}
 \date{\today}
 	
@@ -147,7 +147,7 @@ Individual tests are outlined in sections 5.1 through 5.6. The tests will either
 \subsection{Automated Testing and Verification Tools}
 
 
-Since \progname is fairly simple in terms of inputs and outputs, a simple script is all that is needed to automate testing for those tests that need be automated. 
+The VnV process will utilize gtest, from google (\url{https://github.com/google/googletest})
 
 \an{How to validate coding standards}
 
@@ -206,7 +206,7 @@ Output: Program should run with no error, (correctness of solution is addressed 
 
 Test Case Derivation: Fun. Req. 1
 					
-How test will be performed: Automatically with a script that runs for 10 different functions $x(n)$ as specified in table \ref{Tblstandardinputs}.
+How test will be performed: Gtest will be used to test 10 different functions $x(n)$ as specified in table \ref{Tblstandardinputs}.
 
 \item{test - Normal Input with user entered bounds\\}
 
@@ -220,7 +220,7 @@ Output: Program should run with no error, (correctness of solution is addressed 
 
 Test Case Derivation: Fun. Req. 1
 					
-How test will be performed: Automatically with a script that runs for 10 different functions $x(n)$ as specified in table \ref{Tblstandardinputs} with different input bounds as in other table \ref{Tblboundries}
+How test will be performed: Gtest will be used to test 10 different functions $x(n)$ as specified in table \ref{Tblstandardinputs} with different input bounds as in other table \ref{Tblboundries}
 
 \item{test - Out of Bounds for $N$\\}
 
@@ -234,7 +234,7 @@ Output: Program should return error about analysis range
 
 Test Case Derivation: Fun. Req. 2
 					
-How test will be performed: Since this is just a quick check for an input, it does not require automation 
+How test will be performed: gtest 
 					
 \item{test- Out of Bounds for $\omega_{max}$\\}
 
@@ -262,7 +262,7 @@ Output: Program should return warning about empty signal
 
 Test Case Derivation: Fun. Req. 2
 
-How test will be performed: Since this is just a quick check for an input, it does not require automation 
+How test will be performed: gtest
 
 \item{test- Insufficient $\Delta_n$\\}
 
@@ -276,7 +276,7 @@ Output: Program should return warning about small time period
 
 Test Case Derivation: Fun. Req. 2
 
-How test will be performed: Since this is just a quick check for an input, it does not require automation 
+How test will be performed: gtest
 
 \item{test - Insufficient difference between $\omega_{max}$ and $\omega_{min}$  \\}
 
@@ -290,7 +290,7 @@ Output: Program should return warning about small time period
 
 Test Case Derivation: Fun. Req. 2
 
-How test will be performed: Since this is just a quick check for an input, it does not require automation 
+How test will be performed: gtest
 					
 
 \end{enumerate}
@@ -373,7 +373,7 @@ How test will be performed:
 \item{Step 2:} Compute the difference element-wise be $X$ and $X_o$ using:
 \[ \frac{X(\omega_i, n_j) - X_o(\omega_i, n_j)}{X_o(\omega_i, n_j)} \] .
 Record for elements in matrix.
-\item{Step 3:} In addition, take an average of the error for all elements in the matrix, and record.
+\item{Step 3:} In addition, take an average of the relative error for all elements in the matrix, and record.
 \end{enumerate}
 
 \item{test1 - Wavelet\\}
