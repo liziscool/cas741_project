@@ -1,0 +1,29 @@
+
+set yrange[-2:2]
+
+#set xrange[0:10000]
+#set title "Test Signals"
+#plot "test_signals/10.txt",\
+#      "test_signals/20.txt",\
+#	"test_signals/30.txt",\
+#	"test_signals/50.txt"
+#pause -1 "Hit return to continue"
+
+set xrange[0:300]
+set title "Test Signals"
+plot "test_signals/1000.txt",\
+      "test_signals/2000.txt",\
+	"test_signals/3000.txt"
+pause -1 "Hit return to continue"
+
+#set xrange[0:300]
+#set title "Test Signals"
+#plot "test_signals/10000.txt",\
+#      "test_signals/11000.txt",\
+#	"test_signals/12000.txt"
+#pause -1 "Hit return to continue"
+
+set xrange[2300:2700]
+set title "Test Signals"
+plot "test_signals/4000+8000.txt"
+pause -1 "Hit return to continue"
