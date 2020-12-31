@@ -1,0 +1,129 @@
+\documentclass[12pt, titlepage]{article}
+
+\usepackage{booktabs}
+\usepackage{tabularx}
+\usepackage{hyperref}
+\hypersetup{
+    colorlinks,
+    citecolor=black,
+    filecolor=black,
+    linkcolor=red,
+    urlcolor=blue
+}
+\usepackage[round]{natbib}
+
+\input{../Comments}
+
+\input{../Common}
+
+\begin{document}
+
+\title{Test Report: \progname{}} 
+\author{Elizabeth Hofer}
+\date{\today}
+	
+\maketitle
+
+\pagenumbering{roman}
+
+\section{Revision History}
+
+\begin{tabularx}{\textwidth}{p{3cm}p{2cm}X}
+\toprule {\bf Date} & {\bf Version} & {\bf Notes}\\
+\midrule
+27.12.20 & 1.0 & Initial Release\\
+\bottomrule
+\end{tabularx}
+
+~\newpage
+
+\section{Symbols, Abbreviations and Acronyms}
+
+\renewcommand{\arraystretch}{1.2}
+\begin{tabular}{l l} 
+  \toprule		
+  \textbf{symbol} & \textbf{description}\\
+  \midrule 
+  T & Test\\
+  STFT & Short Time Fourier Transform\\
+  FFT & Fast Fourier Transform\\
+  \bottomrule
+\end{tabular}\\
+
+\wss{symbols, abbreviations or acronyms -- you can reference the SRS tables if needed}
+
+\newpage
+
+\tableofcontents
+
+\listoftables %if appropriate
+
+\listoffigures %if appropriate
+
+\newpage
+
+\pagenumbering{arabic}
+
+This document review the Verification and Validation specifications as outlined in the VnVPlan (\url{https://github.com/liziscool/cas741_project/blob/master/docs/VnVPlan/VnVPlan.pdf}) for \progname{}. 
+
+\section{Functional Requirements Evaluation}
+\begin{itemize}
+
+\item[R1] \emph{Program shall take a sequence of numbers representing the signal to be analysed as input. All other inputs will have defaults, but program shall accept user inputs for those as well.}
+\\
+Tentatively Met. Due to anomalies/misunderstandings in implementation the frequency range cannot be specified. This feature will either be not implemented (as it may not be necessary), or will be implemented in future updates
+
+\item[R2] \emph{Program shall notify user if an input value is illegal or out of bound}
+\\
+Met.
+
+  
+\item[R3] \emph{The output shall be a time frequency representation of the signal in the specified time period and over the specified frequency range.}\\
+Met
+
+\item[R4] \emph{The time-frequency representations of simple input signals (such as sinusoids of a constant frequency or an impulse) should be comparable to existing time-frequency transforms of that signal.}\\
+Implimentation of Testing, in progress. 
+
+\end{itemize}
+\section{Non-functional Requirements Evaluation}
+
+\begin{itemize}
+\item[R5]\emph{ Program shall plot time-frequency representation as a heat map.}\\
+Met.
+\item[R6] \emph{The time complexity for this program should be $O(n)$.}\\
+Honestly I have no idea and I don't even know how I would have gone about testing this. I had previous implementations that took forever and I have since fixed that. It runs 'quick enough' for my purposes. 
+
+\item[R7] \emph{Program will not have a graphical user interface but should still be easy to use, the input parameters besides the signal shall all have default values, there should be at most 6 optional inputs.}\\
+Met.
+
+
+\item[R8] \emph{The program code should be clear and readable.}\\
+Partially met. Will be improved in future versions.
+\item[R9] \emph{The program should easily integrate with other software programs.}\\
+Met. 
+\item[R10] \emph{The program should minimize spectral leakage.}\\
+Testing of this requirement was not completed. It will be completed in future versions.
+
+\end{itemize}
+	
+\section{Comparison to Existing Implementation}	
+
+This section will not be appropriate for every project.
+
+\section{Unit Testing}
+
+\section{Changes Due to Testing}
+
+\section{Automated Testing}
+		
+\section{Trace to Requirements}
+		
+\section{Trace to Modules}		
+
+\section{Code Coverage Metrics}
+
+\bibliographystyle{plainnat}
+
+\bibliography{../../refs/References}
+
+\end{document}
